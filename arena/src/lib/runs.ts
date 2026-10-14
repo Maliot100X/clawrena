@@ -21,6 +21,8 @@ export interface LiveRun {
   subscribers: Set<(s: GameState) => void>;
   thoughts: { text: string; provider: string; at: number }[];
   chat?: { author: string; body: string; kind: string; at: number }[];
+  replying?: boolean;
+  replyQueue?: { viewer: string; text: string }[];
   lastBias: { dx: number; dy: number };
   brainBusy: boolean;
   agg: { calls: number; ms: number; fallbacks: number };
@@ -271,9 +273,39 @@ export function addChat(runId: string, author: string, body: string, kind = 'cha
   if (!run) return null;
   const msg = { author, body: String(body).slice(0, 240), kind, at: Date.now() };
   run.chat = [...(run.chat ?? []).slice(-199), msg];
-  // push to every subscriber as a chat frame
   for (const fn of run.subscribers) { try { fn(run.state); } catch {} }
+  // a human spoke -> the agent answers, in character, out loud
+  if (kind === 'chat' && run.replying !== true) queueReply(run, author, msg.body);
   return msg;
+}
+
+// Serialize replies so the agent never talks over itself.
+async function queueReply(run: LiveRun, viewer: string, text: string) {
+  if (run.replying) { run.replyQueue = [...(run.replyQueue ?? []).slice(-4), { viewer, text }]; return; }
+  run.replying = true;
+  const ask = { viewer, text };
+  try {
+    const { replyTo } = await import('../llm/brain.js');
+    const recent = (run.chat ?? []).slice(-6).map(c => `${c.author}: ${c.body}`);
+    const r = await replyTo({
+      agentName: run.agentName, mindTier: run.mindTier, personality: run.personality,
+      state: run.state, viewer: ask.viewer, message: ask.text, recent,
+    });
+    run.provider = r.provider;
+    const reply = { author: run.agentName, body: r.say, kind: 'agent', at: Date.now() };
+    run.chat = [...(run.chat ?? []).slice(-199), reply];
+    run.thoughts.push({ text: r.say, provider: r.provider, at: Date.now() });
+    for (const fn of run.subscribers) { try { fn(run.state); } catch {} }
+    // speak it — fire and forget so the game never stalls
+    if (run.voiceOn) {
+      speak(r.say, { voiceId: run.voiceId })
+        .then(buf => { run.lastAudioId = storeAudio(run.id, buf); })
+        .catch(() => {});
+    }
+  } catch { /* reply failed — stay silent, keep playing */ }
+  run.replying = false;
+  const next = (run.replyQueue ?? []).shift();
+  if (next) { run.replyQueue = run.replyQueue ?? []; queueReply(run, next.viewer, next.text); }
 }
 export function getChat(runId: string) {
   return runs.get(runId)?.chat ?? [];

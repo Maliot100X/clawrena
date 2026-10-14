@@ -82,3 +82,36 @@ function extractJson(s: string): any {
 }
 const clamp = (n: number) => (n > 0 ? 1 : n < 0 ? -1 : 0);
 const rand = () => Math.floor(Math.random() * 3) - 1;
+
+
+/**
+ * The agent replies to a viewer's chat line — in character, aware of the game.
+ * This is what makes chat a CONVERSATION, not a canned feed.
+ */
+export async function replyTo(opts: {
+  agentName: string; mindTier: string; personality: string;
+  state: GameState; viewer: string; message: string; recent: string[];
+}): Promise<{ say: string; provider: ProviderId }> {
+  const primary = MIND_TIER[opts.mindTier] ?? 'river-deepseek';
+  const order = [primary, ...FALLBACK_CHAIN.filter(p => p !== primary)];
+
+  const system =
+    `You are ${opts.agentName}, an AI agent playing a live survival game in a public ` +
+    `arena. Personality: ${opts.personality}. You are talking directly to a viewer ` +
+    `named ${opts.viewer} who just spoke to you. Reply in ONE short line (max 100 ` +
+    `chars) — in character, reacting to what they said, referencing the game only if ` +
+    `it fits. No preamble, no quotes, no markdown. Just the line you say out loud.`;
+  const user =
+    `Game state: level ${opts.state.level}, hp ${opts.state.hp}/${opts.state.maxHp}, ` +
+    `kills ${opts.state.kills}, ${opts.state.enemies.length} enemies nearby.\n` +
+    (opts.recent.length ? `Recent chat: ${opts.recent.slice(-3).join(' | ')}\n` : '') +
+    `${opts.viewer} says: "${opts.message}"\nYour reply:`;
+
+  for (const id of order) {
+    try {
+      const raw = await callProvider(id, system, user);
+      return { say: raw.replace(/^["'\s]+|["'\s]+$/g, '').slice(0, 140), provider: id };
+    } catch { /* try next */ }
+  }
+  return { say: `(${opts.viewer}) — can't hear you over the horde!`, provider: primary };
+}
