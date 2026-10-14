@@ -11,5 +11,10 @@
   },
   "engines": {
     "node": ">=20"
+  },
+  "devDependencies": {
+    "@prisma/composer": "latest",
+    "@prisma/composer-prisma-cloud": "latest",
+    "prisma": "^6"
   }
 }

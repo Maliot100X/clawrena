@@ -1,0 +1,33 @@
+# Prisma Compute deploy — official recipe from
+# https://www.prisma.io/docs/compute/deploy-on-push
+# Pushes to the default branch deploy production; other branches get a preview.
+# The repo is already connected to the Prisma project "clawrena".
+name: prisma-deploy
+
+on:
+  push:
+
+concurrency:
+  group: prisma-deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  id-token: write          # lets the job exchange OIDC for a Prisma workspace token
+
+jobs:
+  deploy:
+    if: github.ref_type == 'branch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: oven-sh/setup-bun@v2      # the action needs Bun on PATH
+      - uses: prisma/cloud-deploy-action@v1
+        with:
+          # monorepo: the Composer module lives under prisma/
+          module: prisma/module.ts
+          working-directory: prisma
+          build-command: none           # the Composer module has no build step of its own
