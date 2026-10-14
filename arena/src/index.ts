@@ -194,7 +194,10 @@ app.register(async (f) => {
 
 // Railway (and most PaaS) inject PORT; locally we use ARENA_PORT.
 // Honor PORT first so the platform proxy reaches us, then ARENA_PORT, then 4100.
-const port = Number(process.env.PORT ?? process.env.ARENA_PORT ?? 4100);
+// The Railway domain for this service targets port 4100 (set in the dashboard),
+// so bind 4100 by default. ARENA_PORT can override locally; we deliberately do
+// NOT read PORT, because Railway injects PORT=8080 and the domain is not on 8080.
+const port = Number(process.env.ARENA_PORT ?? 4100);
 app.listen({ port, host: '0.0.0.0' })
   .then(() => app.log.info(`ClawRena arena on :${port}`))
   .catch(err => { app.log.error(err); process.exit(1); });
