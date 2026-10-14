@@ -1,27 +1,22 @@
-# Prisma Compute — ClawRena
+# Prisma
 
-This directory wires the repository to the Prisma project **clawrena**.
+**Status: not used for the app.** ClawRena's database is **Neon Postgres**
+(`BYTEARENA_DATABASE_URL`, schema `bytearena`). Everything works there.
 
-## What's here
-- `module.ts` — the Composer module. Declares the `clawrena-db` Prisma Postgres
-  resource. API verified against `@prisma/composer@0.29.1`
-  (`module(name, boundary, body)` and `rawPostgres({ name })`).
-- `../.github/workflows/prisma-deploy.yml` — the official deploy workflow
-  (prisma/cloud-deploy-action@v1). Requires `id-token: write` for the OIDC
-  token exchange, and Bun on the runner (`oven-sh/setup-bun@v2`).
+## Why Prisma Composer was removed
+`@prisma/composer` and `@prisma/composer-prisma-cloud` pull in `workerd`
+(Cloudflare's ~39MB runtime). pnpm 12 blocks its build script, so
+`pnpm install --frozen-lockfile` failed on Vercel and broke deployments.
 
-## Deploy model
-- Push to the **default branch** → deploys to **production**
-- Push to **any other branch** → creates a **preview** stage
-- Credentials come from GitHub OIDC — no secrets are stored in the repo.
-  The GitHub connection to the Prisma project provides the exchange.
+The Prisma CLI (`prisma`, `@prisma/client`) is still used — that's what
+generates the client and runs migrations against Neon.
 
-## Scope note
-This declares the **database layer only**. The arena HTTP server runs on Railway
-and the web app on Vercel. Porting the arena to Prisma Compute would mean:
-Bun everywhere, replacing every `process.env` read with a Composer input schema
-or `envSecret`, reading the listen port from `service.port()` bound to `0.0.0.0`,
-and a single self-contained build entry file. That's a deliberate, separate piece
-of work — not done here.
+## The GitHub deploy workflow
+`.github/workflows/prisma-deploy.yml` remains. It uses GitHub OIDC
+(`id-token: write`) and `prisma/cloud-deploy-action@v1`. If the repo is not
+connected to a Prisma Compute project it exits green with
+`skipped-no-credential` — it does not affect Vercel or the app.
 
-Reference: https://www.prisma.io/docs/compute/deploy-on-push
+To re-enable Composer later: reinstall the two packages, allow `workerd` in
+`pnpm-workspace.yaml` under `onlyBuiltDependencies`, and restore
+`docs/prisma-module.ts.disabled` to `prisma/module.ts`.
