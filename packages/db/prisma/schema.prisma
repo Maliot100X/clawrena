@@ -58,6 +58,10 @@ model Agent {
   voiceTier   VoiceTier    @default(SERVER_DEFAULT)
   language    String       @default("en")
 
+  // The game this agent plays. Set once on the agent, then "Go Live" is a
+  // single press — no picker at live time. Null = falls back to the default game.
+  defaultGameSlug String?
+
   live        Boolean      @default(false)
   // denormalized card stats (mirrors the reference UI counters)
   runsCount   Int          @default(0)

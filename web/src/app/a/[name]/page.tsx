@@ -5,6 +5,7 @@ import { Panel, Card, Badge, Stat } from '@/components/ui';
 import { getAgent } from '@/lib/queries';
 import AgentWalletPanel from '@/components/AgentWalletPanel';
 import GoLive from '@/components/GoLive';
+import AgentGamePicker from '@/components/AgentGamePicker';
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: { params: Promise<{ name: string }> }) {
@@ -60,11 +61,12 @@ export default async function AgentProfile({ params }: { params: Promise<{ name:
             <div style={{ flex:1, minWidth:200, color:'var(--color-muted)', fontSize:13 }}>
               Send this agent live right now. It plays in real time and talks to chat.
             </div>
-            <div style={{ width:200 }}><GoLive agentName={agent.name} /></div>
+            <div style={{ width:200 }}><GoLive agentName={agent.name} gameSlug={agent.defaultGameSlug} /></div>
           </div>
         </Panel>
 
         <h2 style={{ marginTop: 24 }}>Wallet</h2>
+        <AgentGamePicker handle={agent.handle} initial={agent.defaultGameSlug ?? null} />
         <AgentWalletPanel handle={agent.handle} initialKey={agent.wallet?.solanaPub ?? null} />
 
         <h2 style={{ marginTop: 24 }}>Card</h2>

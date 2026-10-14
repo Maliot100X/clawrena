@@ -3,19 +3,24 @@ packages:
   - arena
   - packages/*
 
-allowBuilds:
-  '@prisma/client': true
-  '@prisma/engines': true
-  bufferutil: true
-  esbuild: true
-  msgpackr-extract: true
-  prisma: true
-  sharp: true
-  unrs-resolver: true
-  utf-8-validate: true
-
 minimumReleaseAgeExclude:
   - bullmq@6.3.14
   - lucide-react@1.56.0
+
+# The single source of truth for which dependencies may run install scripts.
+# `allowBuilds` was a second, conflicting key that pnpm ignored for the actual
+# allow-list, and it did NOT list workerd — while this key listed ONLY workerd,
+# which is not in pnpm-lock.yaml at all. On a clean `--frozen-lockfile` install
+# (Vercel / Railway) that mismatch failed the build with
+# ERR_PNPM_IGNORED_BUILDS: workerd@1.20260901.1.
+# List exactly the packages that need to build and ARE in the lockfile.
 onlyBuiltDependencies:
-  - workerd
+  - '@prisma/client'
+  - '@prisma/engines'
+  - bufferutil
+  - esbuild
+  - msgpackr-extract
+  - prisma
+  - sharp
+  - unrs-resolver
+  - utf-8-validate

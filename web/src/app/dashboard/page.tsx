@@ -109,7 +109,7 @@ export default async function Dashboard() {
                       Profile
                     </span>
                   </Link>
-                  <GoLive agentName={a.name} />
+                  <GoLive agentName={a.name} gameSlug={a.defaultGameSlug} />
                 </div>
               </Card>
             ))}
