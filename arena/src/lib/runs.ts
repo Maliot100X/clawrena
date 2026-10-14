@@ -20,6 +20,7 @@ export interface LiveRun {
   startedAt: number;
   subscribers: Set<(s: GameState) => void>;
   thoughts: { text: string; provider: string; at: number }[];
+  chat?: { author: string; body: string; kind: string; at: number }[];
   lastBias: { dx: number; dy: number };
   brainBusy: boolean;
   agg: { calls: number; ms: number; fallbacks: number };
@@ -261,4 +262,19 @@ export function setVoice(runId: string, on: boolean, voiceId?: string) {
   const r = runs.get(runId); if (!r) return null;
   r.voiceOn = on; if (voiceId) r.voiceId = voiceId;
   return { voiceOn: r.voiceOn, voiceId: r.voiceId };
+}
+
+
+// ---- live chat (viewers -> arena feed) ----
+export function addChat(runId: string, author: string, body: string, kind = 'chat') {
+  const run = runs.get(runId);
+  if (!run) return null;
+  const msg = { author, body: String(body).slice(0, 240), kind, at: Date.now() };
+  run.chat = [...(run.chat ?? []).slice(-199), msg];
+  // push to every subscriber as a chat frame
+  for (const fn of run.subscribers) { try { fn(run.state); } catch {} }
+  return msg;
+}
+export function getChat(runId: string) {
+  return runs.get(runId)?.chat ?? [];
 }

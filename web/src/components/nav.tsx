@@ -38,11 +38,17 @@ export async function TopNav() {
             {me ? me.points.toLocaleString() : '—'}
           </strong>
         </span>
-        {me
-          ? <Link href="/dashboard" style={{ color: 'var(--color-sol-purple)', fontSize: 14 }}>
-              {me.handle}
-            </Link>
-          : <Link href="/login" style={{ color: 'var(--color-sol-purple)', fontSize: 14 }}>Log in</Link>}
+        {me ? (
+          <Link href="/dashboard" style={{ color: 'var(--color-sol-purple)', fontSize: 14 }}>
+            {me.handle}
+          </Link>
+        ) : (
+          <span style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
+            <Link href="/login" style={{ color: 'var(--color-muted)', fontSize: 14 }}>Log in</Link>
+            <Link href="/register" style={{ padding:'6px 14px', borderRadius:999, fontSize:13,
+              fontWeight:600, background:'#fff', color:'#08080c' }}>Sign up</Link>
+          </span>
+        )}
       </div>
     </header>
   );

@@ -12,7 +12,7 @@ const AUDIO_TYPES = ['audio/mpeg','audio/wav','audio/webm','audio/ogg','audio/mp
 import cors from '@fastify/cors';
 import websocket from '@fastify/websocket';
 import { redis } from './lib/redis.js';
-import { createRun, startRun, getRun, listRuns, stopRun, placeRunBet, getAudio, latestAudio, setVoice } from './lib/runs.js';
+import { createRun, startRun, getRun, listRuns, stopRun, placeRunBet, getAudio, latestAudio, setVoice, addChat, getChat } from './lib/runs.js';
 import { openFor, ledgerFor } from './lib/markets.js';
 import { speak, transcribe, listVoices } from './voice/deepgram.js';
 
@@ -54,6 +54,21 @@ app.post('/brain/test', async (req, reply) => {
   } catch (e: any) {
     return reply.code(502).send({ error: e.message });
   }
+});
+
+// --- live chat ---
+app.get('/runs/:id/chat', async (req) => {
+  const { id } = req.params as { id: string };
+  return { messages: getChat(id) };
+});
+app.post('/runs/:id/chat', async (req, reply) => {
+  const { id } = req.params as { id: string };
+  const b = (req.body ?? {}) as any;
+  const body = String(b.body ?? '').trim();
+  if (!body) return reply.code(400).send({ error: 'empty message' });
+  const m = addChat(id, b.author ?? 'viewer', body);
+  if (!m) return reply.code(404).send({ error: 'run not found' });
+  return { ok: true, message: m };
 });
 
 // --- voice ---

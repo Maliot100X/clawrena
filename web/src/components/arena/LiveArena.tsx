@@ -26,6 +26,9 @@ export default function LiveArena({ runId, wsBase = ARENA_WS, avatarFile, agentN
   const [status, setStatus] = useState<'connecting'|'live'|'closed'>('connecting');
   const [tab, setTab] = useState<'chat'|'state'|'bets'>('chat');
   const [chat, setChat] = useState<{ who: string; text: string }[]>([]);
+  const [viewerChat, setViewerChat] = useState<{ author: string; body: string }[]>([]);
+  const [draft, setDraft] = useState('');
+  const [sendErr, setSendErr] = useState('');
   const ws = useRef<WebSocket | null>(null);
   const retry = useRef(0);
 
@@ -63,11 +66,33 @@ export default function LiveArena({ runId, wsBase = ARENA_WS, avatarFile, agentN
           setChat(j.thoughts.map((t: Thought) => ({ who: 'byteraa', text: t.text })));
         }
       } catch {}
+      try {
+        const cr = await fetch(`/api/arena/chat?id=${runId}`, { cache: 'no-store' });
+        const cj = await cr.json();
+        if (!stop && Array.isArray(cj.messages)) setViewerChat(cj.messages);
+      } catch {}
       if (!stop) setTimeout(poll, 1500);
     };
     poll();
     return () => { stop = true; };
   }, [runId]);
+
+  const send = useCallback(async (e: any) => {
+    e.preventDefault();
+    const body = draft.trim();
+    if (!body) return;
+    setSendErr('');
+    try {
+      const r = await fetch('/api/arena/chat', { method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ id: runId, body }) });
+      const j = await r.json();
+      if (r.status === 401) { setSendErr('sign in with your wallet to chat'); return; }
+      if (!r.ok) { setSendErr(j.error ?? 'send failed'); return; }
+      setDraft('');
+      setViewerChat(prev => [...prev, j.message]);
+    } catch (err: any) { setSendErr(err.message); }
+  }, [draft, runId]);
 
   const mood: AvatarMood = useMemo(() => {
     if (state?.alive === false) return 'idle';
@@ -149,6 +174,12 @@ export default function LiveArena({ runId, wsBase = ARENA_WS, avatarFile, agentN
                 <span style={{ color: 'var(--color-ink)' }}>{c.text}</span>
               </div>
             )) : <span style={{ color: 'var(--color-muted)' }}>Waiting for the agent to speak…</span>)}
+            {tab === 'chat' && viewerChat.slice(-20).map((m, i) => (
+              <div key={'v'+i} style={{ marginBottom: 8 }}>
+                <span style={{ color: 'var(--color-cyan)', fontWeight: 600 }}>{m.author}</span>{' '}
+                <span style={{ color: 'var(--color-ink)' }}>{m.body}</span>
+              </div>
+            ))}
 
             {tab === 'state' && (
               <pre style={{ margin: 0, fontSize: 12, color: 'var(--color-muted)' }}>
@@ -162,10 +193,16 @@ export default function LiveArena({ runId, wsBase = ARENA_WS, avatarFile, agentN
             </span>}
           </div>
 
-          <input placeholder="Log in to chat" aria-label="chat message"
-            style={{ width: '100%', marginTop: 10, padding: 10, borderRadius: 8,
-              background: '#0b0b11', border: '1px solid var(--color-line)',
-              color: 'var(--color-ink)' }} />
+          <form onSubmit={send} style={{ display: 'flex', gap: 8, marginTop: 10 }}>
+            <input value={draft} onChange={e => setDraft(e.target.value)}
+              placeholder="Say something to the agent…" aria-label="chat message"
+              style={{ flex: 1, padding: 10, borderRadius: 8,
+                background: '#0b0b11', border: '1px solid var(--color-line)',
+                color: 'var(--color-ink)' }} />
+            <button type="submit" style={{ padding: '0 16px', borderRadius: 8, border: 0,
+              background: '#fff', color: '#08080f', fontWeight: 600, cursor: 'pointer' }}>Send</button>
+          </form>
+          {sendErr && <div style={{ color: 'var(--color-red)', fontSize: 12, marginTop: 6 }}>{sendErr}</div>}
         </Panel>
 
         <Panel>
