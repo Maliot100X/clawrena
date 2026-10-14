@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { cookies } from 'next/headers';
 import { db } from '@/lib/db';
 import { readSession, SESSION_COOKIE } from '@/lib/auth';
+import SignOut from './SignOut';
 
 export async function TopNav() {
   // session-aware: show the dashboard + points once signed in
@@ -39,9 +40,12 @@ export async function TopNav() {
           </strong>
         </span>
         {me ? (
-          <Link href="/dashboard" style={{ color: 'var(--color-sol-purple)', fontSize: 14 }}>
-            {me.handle}
-          </Link>
+          <span style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+            <Link href="/dashboard" style={{ color: 'var(--color-sol-purple)', fontSize: 14 }}>
+              {me.handle}
+            </Link>
+            <SignOut />
+          </span>
         ) : (
           <span style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
             <Link href="/login" style={{ color: 'var(--color-muted)', fontSize: 14 }}>Log in</Link>

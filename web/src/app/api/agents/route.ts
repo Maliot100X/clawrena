@@ -15,9 +15,13 @@ export async function GET() {
       mindTier:true, personality:true, tagline:true, bodyModel:true,
       wallet: { select: { solanaPub: true } } } as const;
 
+  // hide soft-deleted demo agents from both the public list and the dashboard
+  const notHidden = { NOT: { tagline: { contains: '[hidden-demo]' } } };
   const agents = uid
-    ? await db.agent.findMany({ where: { userId: uid }, orderBy: { createdAt: 'desc' }, take: 50, select: SEL })
-    : await db.agent.findMany({ where: { live: true }, orderBy: { createdAt: 'desc' }, take: 50, select: SEL });
+    ? await db.agent.findMany({ where: { userId: uid, ...notHidden },
+        orderBy: { createdAt: 'desc' }, take: 50, select: SEL })
+    : await db.agent.findMany({ where: { live: true, ...notHidden },
+        orderBy: { createdAt: 'desc' }, take: 50, select: SEL });
   return NextResponse.json({
     agents: agents.map(({ wallet, ...a }) => ({ ...a,
       walletShort: wallet ? shortKey(wallet.solanaPub) : null })),

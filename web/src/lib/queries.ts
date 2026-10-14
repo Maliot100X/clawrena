@@ -7,7 +7,11 @@ export async function getGame(slug: string) {
   return db.game.findUnique({ where: { slug } });
 }
 export async function getAgents(limit = 12) {
-  return db.agent.findMany({ orderBy: { createdAt: 'desc' }, take: limit });
+  // never surface soft-deleted demo agents
+  return db.agent.findMany({
+    where: { NOT: { tagline: { contains: '[hidden-demo]' } } },
+    orderBy: { createdAt: 'desc' }, take: limit,
+  });
 }
 export async function getAgent(handle: string) {
   return db.agent.findUnique({ where: { handle } });
