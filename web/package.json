@@ -10,7 +10,7 @@
     "postinstall": "pnpm --filter @clawrena/db generate || true"
   },
   "dependencies": {
-    "next": "15.5.4",
+    "next": "15.5.27",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "@clawrena/shared": "workspace:*",
@@ -32,7 +32,8 @@
     "@solana/wallet-adapter-solflare": "^0.6.32",
     "zustand": "^5.0.15",
     "lucide-react": "^1.56.0",
-    "clsx": "^2.1.1"
+    "clsx": "^2.1.1",
+    "eslint-config-next": "15.5.27"
   },
   "devDependencies": {
     "typescript": "^5.6.3",
