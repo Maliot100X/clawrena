@@ -35,6 +35,27 @@ app.get('/health', async () => {
 
 app.get('/runs', async () => ({ runs: listRuns() }));
 
+// --- brain test (used by the create-agent flow) ---
+// Runs ONE real think() turn against a representative game state so the user
+// sees which provider answers and what the agent would say.
+app.post('/brain/test', async (req, reply) => {
+  const b = (req.body ?? {}) as any;
+  try {
+    const { think } = await import('./llm/brain.js');
+    const t = await think({
+      agentName: b.agentName ?? 'agent',
+      mindTier: b.mindTier ?? 'HUMAN',
+      personality: b.personality ?? 'Daredevil',
+      state: { tick: 42, level: 3, hp: 76, maxHp: 120, kills: 14, gold: 42,
+               elapsedMs: 9000, x: 5, y: 5, alive: true,
+               enemies: [{ x: 6, y: 5 }, { x: 4, y: 6 }, { x: 5, y: 4 }], log: [] } as any,
+    });
+    return { say: t.say, provider: t.provider, bias: t.bias, fallback: t.fallback ?? false };
+  } catch (e: any) {
+    return reply.code(502).send({ error: e.message });
+  }
+});
+
 // --- voice ---
 // stream the most recent spoken line for a run
 app.get('/runs/:id/voice', async (req, reply) => {

@@ -5,18 +5,11 @@
 import { useState } from 'react';
 import { Panel, Button, Badge } from '@/components/ui';
 import AvatarPreview from '@/components/AvatarPreview';
+import VoiceTab from '@/components/voice/VoiceTab';
+import MindTab from '@/components/voice/MindTab';
 
 const TABS = ['Body','Head','Colors','Scene','Mind','Voice','More'] as const;
 import { AVATARS } from '@/lib/avatars';
-const MIND = [
-  { id:'ORC',         label:'Orc',         sub:'fast and cheap' },
-  { id:'HUMAN',       label:'Human',       sub:'Plays well, blunders like anyone. The default.' },
-  { id:'WIZARD',      label:'Wizard',      sub:'deeper reasoning' },
-  { id:'HIGH_WIZARD', label:'High Wizard', sub:'deepest available' },
-];
-const PERS = ['Strategist','Daredevil','Comedian','Cautious','Custom'];
-const VOICES = ['Server default','Andrew · Male','Aria · Female','Guy · Male','Jenny · Female'];
-const LANGS = ['EN','ES','PT','FR','DE','JA','KO','ZH'];
 const AURAS = ['auto · smoke','auto · glow','auto · ember'];
 const NAMES = ['byteraa','dot','Clawrena','Pepe','MONEY AI','Oski','Dobi','Glutos',
   'Zealon','Tercero','Wanpan','Maruchain','Xynta','Loop'];
@@ -28,8 +21,11 @@ export default function CreateAgent() {
   const [preset, setPreset] = useState(AVATARS[0].id);
   const [mind, setMind] = useState('HUMAN');
   const [pers, setPers] = useState('Daredevil');
-  const [voice, setVoice] = useState(VOICES[0]);
+  const [voice, setVoice] = useState('server-default');
   const [lang, setLang] = useState('EN');
+  const [tier, setTier] = useState('SERVER_DEFAULT');
+  const [emotion, setEmotion] = useState('Natural');
+  const [customMind, setCustomMind] = useState('');
   const [scene, setScene] = useState('Studio');
   const [aura, setAura] = useState(AURAS[0]);
   const [busy, setBusy] = useState(false);
@@ -45,7 +41,8 @@ export default function CreateAgent() {
         headers:{ 'content-type':'application/json' },
         body: JSON.stringify({ name, mindTier: mind,
           personality: pers.toUpperCase(), scene: scene.toLowerCase(),
-          aura, voiceId: voice, bodyModel: preset }) });
+          aura, voiceId: voice, voiceTier: tier, language: lang,
+          bodyModel: preset, customMind: customMind || undefined }) });
       const j = await r.json();
       if (!r.ok) { setErr(j.error ?? 'create failed'); setBusy(false); return; }
 
@@ -137,52 +134,16 @@ export default function CreateAgent() {
             </div>
           </>)}
 
-          {tab==='Mind' && (<>
-            <h3 style={{ marginTop:0 }}>Mind</h3>
-            <div style={{ color:'var(--color-muted)', fontSize:12, marginBottom:8 }}>HOW WELL IT THINKS</div>
-            {MIND.map(m => (
-              <div key={m.id} onClick={()=>setMind(m.id)} style={{ cursor:'pointer',
-                padding:'10px 12px', borderRadius:10, marginBottom:8,
-                border:`1px solid ${mind===m.id?'var(--color-sol-purple)':'var(--color-line)'}`,
-                background: mind===m.id ? '#14141c' : 'transparent' }}>
-                <div style={{ fontSize:14 }}>{m.label}</div>
-                <div style={{ fontSize:12, color:'var(--color-muted)' }}>{m.sub}</div>
-              </div>
-            ))}
-            <div style={{ color:'var(--color-muted)', fontSize:12, margin:'14px 0 8px' }}>HOW IT PLAYS</div>
-            <div style={{ display:'flex', gap:8, flexWrap:'wrap' }}>
-              {PERS.map(p => (
-                <span key={p} onClick={()=>setPers(p)} style={{ cursor:'pointer',
-                  padding:'8px 14px', borderRadius:10, fontSize:13,
-                  border:`1px solid ${pers===p?'var(--color-sol-green)':'var(--color-line)'}`,
-                  color: pers===p?'var(--color-ink)':'var(--color-muted)' }}>{p}</span>
-              ))}
-            </div>
-          </>)}
+          {tab==='Mind' && (
+            <MindTab mind={mind} setMind={setMind} pers={pers} setPers={setPers}
+              custom={customMind} setCustom={setCustomMind} agentName={name} />
+          )}
 
-          {tab==='Voice' && (<>
-            <h3 style={{ marginTop:0 }}>Voice</h3>
-            <div style={{ display:'flex', gap:8, marginBottom:10 }}>
-              {['Standard · free','Premium','Pro'].map(v => <Badge key={v}>{v}</Badge>)}
-            </div>
-            {VOICES.map(v => (
-              <div key={v} onClick={()=>setVoice(v)} style={{ cursor:'pointer',
-                padding:'8px 12px', borderRadius:10, marginBottom:6, fontSize:13,
-                border:`1px solid ${voice===v?'var(--color-sol-purple)':'var(--color-line)'}`,
-                color: voice===v?'var(--color-ink)':'var(--color-muted)' }}>{v}</div>
-            ))}
-            <div style={{ display:'flex', gap:6, marginTop:10, flexWrap:'wrap' }}>
-              {LANGS.map(l => (
-                <span key={l} onClick={()=>setLang(l)} style={{ cursor:'pointer',
-                  padding:'4px 10px', borderRadius:6, fontSize:12,
-                  border:`1px solid ${lang===l?'var(--color-sol-green)':'var(--color-line)'}`,
-                  color: lang===l?'var(--color-ink)':'var(--color-muted)' }}>{l}</span>
-              ))}
-            </div>
-            <div style={{ marginTop:12, color:'var(--color-muted)', fontSize:12 }}>
-              Emotions: Natural · Whisper · Afraid · Excited · Angry · Sad · Suspense · Laughing
-            </div>
-          </>)}
+          {tab==='Voice' && (
+            <VoiceTab voice={voice} setVoice={setVoice} tier={tier} setTier={setTier}
+              lang={lang} setLang={setLang} emotion={emotion} setEmotion={setEmotion}
+              agentName={name} />
+          )}
 
           {tab==='More' && (<>
             <h3 style={{ marginTop:0 }}>More</h3>

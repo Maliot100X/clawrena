@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { Badge, Panel, Button } from '@/components/ui';
 import type { AvatarMood } from './VrmAvatar';
+import GameBoard from './GameBoard';
 
 const VrmAvatar = dynamic(() => import('./VrmAvatar'), { ssr: false });
 
@@ -97,8 +98,21 @@ export default function LiveArena({ runId, wsBase = ARENA_WS, avatarFile, agentN
           </span>
         </div>
 
-        <div style={{ height: 440 }}>
-          <VrmAvatar mood={mood} url={avatarFile} />
+        {/* row: live game board | the agent itself */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: 0 }}>
+          <div style={{ borderRight: '1px solid var(--color-line)', overflow: 'auto' }}>
+            <GameBoard state={state as any} agentName={agentName} />
+          </div>
+          <div style={{ height: 440, position: 'relative' }}>
+            <VrmAvatar mood={mood} url={avatarFile} />
+            {/* "is thinking" indicator — the brain made visible */}
+            <div style={{ position: 'absolute', top: 10, left: 10, right: 10, textAlign: 'center',
+              fontFamily: 'var(--font-arcade)', fontSize: 9, letterSpacing: 1,
+              color: thoughts.length ? 'var(--color-sol-green)' : 'var(--color-muted)',
+              opacity: thoughts.length ? 1 : 0.5 }}>
+              {(agentName || 'AGENT').toUpperCase()} IS {thoughts.length ? 'SPEAKING' : 'THINKING'}
+            </div>
+          </div>
         </div>
 
         <div style={{ padding: '10px 14px', borderTop: '1px solid var(--color-line)' }}>
@@ -127,10 +141,11 @@ export default function LiveArena({ runId, wsBase = ARENA_WS, avatarFile, agentN
             ))}
           </div>
 
-          <div style={{ minHeight: 240, maxHeight: 300, overflowY: 'auto', fontSize: 13 }}>
-            {tab === 'chat' && (chat.length ? chat.map((c, i) => (
-              <div key={i} style={{ marginBottom: 8 }}>
-                <span style={{ color: 'var(--color-sol-purple)' }}>{c.who}</span>{' '}
+          <div style={{ minHeight: 240, maxHeight: 320, overflowY: 'auto', fontSize: 13 }}>
+            {tab === 'chat' && (chat.length ? [...chat].reverse().map((c, i) => (
+              <div key={i} style={{ marginBottom: 8, paddingBottom: 8,
+                borderBottom: '1px solid var(--color-line)' }}>
+                <span style={{ color: 'var(--color-sol-purple)', fontWeight: 600 }}>{c.who}</span>{' '}
                 <span style={{ color: 'var(--color-ink)' }}>{c.text}</span>
               </div>
             )) : <span style={{ color: 'var(--color-muted)' }}>Waiting for the agent to speak…</span>)}
