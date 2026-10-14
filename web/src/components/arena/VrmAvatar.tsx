@@ -24,6 +24,11 @@ function Model({ url, mood }: { url: string; mood: AvatarMood }) {
       const v = gltf.userData.vrm as VRM;
       VRMUtils.removeUnnecessaryVertices(gltf.scene);
       VRMUtils.combineSkeletons(gltf.scene);
+      // VRM 0.x models face away from the camera — rotate the root 180deg.
+      // These are real VRoid avatars (AvatarSample_A/B/C, fem/masc vroid).
+      if (v.meta?.metaVersion === '0') {
+        VRMUtils.rotateVRM0(v);
+      }
       v.scene.traverse((o) => { o.frustumCulled = false; });
       v.scene.position.set(0, 0, 0);
       vrm.current = v;

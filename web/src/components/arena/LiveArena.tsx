@@ -17,8 +17,8 @@ interface Thought { text: string; provider: string; at: number }
 
 const ARENA_WS = process.env.NEXT_PUBLIC_ARENA_WS ?? 'ws://localhost:4100';
 
-export default function LiveArena({ runId, wsBase = ARENA_WS }:
-  { runId: string; wsBase?: string }) {
+export default function LiveArena({ runId, wsBase = ARENA_WS, avatarFile, agentName = 'agent' }:
+  { runId: string; wsBase?: string; avatarFile?: string; agentName?: string }) {
   const [state, setState] = useState<LiveState | null>(null);
   const [thoughts, setThoughts] = useState<Thought[]>([]);
   const [provider, setProvider] = useState<string>('');
@@ -98,7 +98,7 @@ export default function LiveArena({ runId, wsBase = ARENA_WS }:
         </div>
 
         <div style={{ height: 440 }}>
-          <VrmAvatar mood={mood} />
+          <VrmAvatar mood={mood} url={avatarFile} />
         </div>
 
         <div style={{ padding: '10px 14px', borderTop: '1px solid var(--color-line)' }}>

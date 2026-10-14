@@ -48,7 +48,7 @@ export async function POST(req: Request) {
       personality: (b.personality ?? 'DAREDEVIL'),
       scene: b.scene ?? 'studio',
       aura: b.aura ?? 'auto',
-      bodyModel: b.bodyModel ?? null,
+      bodyModel: b.bodyModel ?? null,   // avatar preset id
       voiceId: b.voiceId ?? null,
       wallet: { create: { solanaPub: w.publicKey, encSecret: w.encSecret } },
     },

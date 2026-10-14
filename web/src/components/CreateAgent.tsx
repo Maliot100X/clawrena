@@ -4,9 +4,10 @@
 // On create: POST /api/agents -> agent + its OWN wallet, then go live in the arena.
 import { useState } from 'react';
 import { Panel, Button, Badge } from '@/components/ui';
+import AvatarPreview from '@/components/AvatarPreview';
 
 const TABS = ['Body','Head','Colors','Scene','Mind','Voice','More'] as const;
-const PRESETS = ['Aoi','Seed','Sample B','Hato','Your .vrm'];
+import { AVATARS } from '@/lib/avatars';
 const MIND = [
   { id:'ORC',         label:'Orc',         sub:'fast and cheap' },
   { id:'HUMAN',       label:'Human',       sub:'Plays well, blunders like anyone. The default.' },
@@ -24,7 +25,7 @@ const surprise = () => NAMES[Math.floor(Math.random() * NAMES.length)];
 export default function CreateAgent() {
   const [tab, setTab] = useState<typeof TABS[number]>('Body');
   const [name, setName] = useState('');
-  const [preset, setPreset] = useState(PRESETS[0]);
+  const [preset, setPreset] = useState(AVATARS[0].id);
   const [mind, setMind] = useState('HUMAN');
   const [pers, setPers] = useState('Daredevil');
   const [voice, setVoice] = useState(VOICES[0]);
@@ -83,12 +84,14 @@ export default function CreateAgent() {
             </div>
             <div style={{ color:'var(--color-muted)', fontSize:12, marginBottom:6 }}>CHARACTER</div>
             <div style={{ display:'flex', gap:8, flexWrap:'wrap' }}>
-              {PRESETS.map(p => (
-                <span key={p} onClick={()=>setPreset(p)} style={{ cursor:'pointer',
+              {AVATARS.map(a => (
+                <span key={a.id} onClick={()=>setPreset(a.id)} style={{ cursor:'pointer',
                   padding:'8px 14px', borderRadius:10, fontSize:13,
-                  border:`1px solid ${preset===p?'var(--color-sol-purple)':'var(--color-line)'}`,
-                  color: preset===p?'var(--color-ink)':'var(--color-muted)' }}>{p}</span>
+                  border:`1px solid ${preset===a.id?'var(--color-sol-purple)':'var(--color-line)'}`,
+                  color: preset===a.id?'var(--color-ink)':'var(--color-muted)' }}>{a.label}</span>
               ))}
+              <span style={{ padding:'8px 14px', borderRadius:10, fontSize:13, opacity:.45,
+                border:'1px solid var(--color-line)', color:'var(--color-muted)' }}>Your .vrm</span>
             </div>
             <div style={{ marginTop:14, color:'var(--color-muted)', fontSize:12 }}>
               Animations: pixiv Inc.'s VRoid Project · camera auto / full body / medium / face
@@ -195,10 +198,9 @@ export default function CreateAgent() {
       {/* preview card */}
       <div style={{ display:'grid', gap:12, alignContent:'start' }}>
         <Panel>
-          <div style={{ height:150, borderRadius:12, marginBottom:12,
-            background:'linear-gradient(140deg,var(--color-sol-purple),var(--color-sol-green))',
-            display:'grid', placeItems:'center', color:'#08080c', fontWeight:700 }}>
-            {preset}
+          <div style={{ height:200, borderRadius:12, marginBottom:12, overflow:'hidden',
+            background:'linear-gradient(160deg,#0b0b11,#121218)' }}>
+            <AvatarPreview presetId={preset} />
           </div>
           <label style={{ display:'block', fontSize:11, letterSpacing:1,
             color:'var(--color-muted)', marginBottom:6 }}>NAME</label>
