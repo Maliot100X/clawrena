@@ -27,7 +27,12 @@ export default function Login() {
         body: JSON.stringify({ address, signature, nonce, issuedAt: extractIssuedAt(message) }),
       });
       const out = await vr.json();
-      setMsg(out.ok ? `Signed in as ${out.handle} · ${out.points} points` : `Error: ${out.error}`);
+      if (out.ok) {
+        setMsg(`Signed in as ${out.handle} — opening your dashboard…`);
+        window.location.href = '/dashboard';   // full profile, not a text line
+        return;
+      }
+      setMsg(`Error: ${out.error}`);
     } catch (e: any) { setMsg('Failed: ' + e.message); }
   }
 

@@ -1,6 +1,20 @@
 import Link from 'next/link';
+import { cookies } from 'next/headers';
+import { db } from '@/lib/db';
+import { readSession, SESSION_COOKIE } from '@/lib/auth';
 
-export function TopNav() {
+export async function TopNav() {
+  // session-aware: show the dashboard + points once signed in
+  let me: { handle: string; points: number } | null = null;
+  try {
+    const jar = await cookies();
+    const uid = await readSession(jar.get(SESSION_COOKIE)?.value);
+    if (uid) {
+      const u = await db.user.findUnique({ where: { id: uid },
+        select: { handle: true, points: true } });
+      if (u) me = u;
+    }
+  } catch { /* not signed in / db unavailable */ }
   return (
     <header style={{
       position: 'sticky', top: 0, zIndex: 50, display: 'flex', alignItems: 'center',
@@ -16,12 +30,19 @@ export function TopNav() {
         <Link href="/g" style={{ color: 'var(--color-muted)' }}>Games</Link>
         <Link href="/build" style={{ color: 'var(--color-muted)' }}>Build</Link>
         <Link href="/leaderboard" style={{ color: 'var(--color-muted)' }}>Board</Link>
+        {me && <Link href="/dashboard" style={{ color: 'var(--color-sol-green)' }}>Dashboard</Link>}
       </nav>
       <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 16 }}>
         <span style={{ fontSize: 11, letterSpacing: 1, color: 'var(--color-muted)' }}>
-          POINTS <strong style={{ color: 'var(--color-ink)' }}>1,000</strong>
+          POINTS <strong style={{ color: 'var(--color-ink)' }}>
+            {me ? me.points.toLocaleString() : '—'}
+          </strong>
         </span>
-        <Link href="/login" style={{ color: 'var(--color-sol-purple)', fontSize: 14 }}>Log in</Link>
+        {me
+          ? <Link href="/dashboard" style={{ color: 'var(--color-sol-purple)', fontSize: 14 }}>
+              {me.handle}
+            </Link>
+          : <Link href="/login" style={{ color: 'var(--color-sol-purple)', fontSize: 14 }}>Log in</Link>}
       </div>
     </header>
   );
