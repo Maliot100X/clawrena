@@ -3,6 +3,13 @@
   "private": true,
   "packageManager": "pnpm@12.9.1",
   "scripts": {
-    "build:web": "pnpm --filter @clawrena/web build"
+    "build": "pnpm --filter @clawrena/db generate && pnpm --filter @clawrena/arena build",
+    "start": "pnpm --filter @clawrena/arena start",
+    "build:web": "pnpm --filter @clawrena/web build",
+    "build:all": "pnpm -r build",
+    "test": "pnpm -r test"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

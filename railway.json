@@ -1,8 +1,8 @@
 {
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
-    "builder": "NIXPACKS",
-    "buildCommand": "pnpm install --frozen-lockfile && pnpm --filter @clawrena/db generate && pnpm --filter @clawrena/arena build"
+    "builder": "RAILPACK",
+    "buildCommand": "corepack prepare pnpm@12.9.1 --activate && pnpm install --frozen-lockfile && pnpm --filter @clawrena/db generate && pnpm --filter @clawrena/arena build"
   },
   "deploy": {
     "startCommand": "pnpm --filter @clawrena/arena start",
