@@ -1,0 +1,204 @@
+{"version":10,"type":"context-options","origin":"library","browserName":"","playwrightVersion":"1.64.0","options":{},"platform":"linux","wallTime":1791943723148,"monotonicTime":59055.762,"sdkLanguage":"javascript","title":"04-predict.spec.ts:5 › markets open, bets settle, ledger stays zero-sum"}
+{"type":"before","callId":"lcfa@989","startTime":59057.518,"class":"APIRequestContext","method":"fetch","params":{"url":"http://localhost:4100/runs","method":"POST","jsonData":"{\"agentName\":\"Betbot\",\"seed\":21,\"targetLevel\":4,\"tickMs\":300,\"mindTier\":\"ORC\"}"}}
+{"type":"log","callId":"lcfa@989","time":59059.629,"message":"→ POST http://localhost:4100/runs"}
+{"type":"log","callId":"lcfa@989","time":59059.648,"message":"  user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36"}
+{"type":"log","callId":"lcfa@989","time":59059.652,"message":"  accept: */*"}
+{"type":"log","callId":"lcfa@989","time":59059.655,"message":"  accept-encoding: gzip,deflate,br"}
+{"type":"log","callId":"lcfa@989","time":59059.658,"message":"  content-type: application/json"}
+{"type":"log","callId":"lcfa@989","time":59059.661,"message":"  content-length: 78"}
+{"type":"log","callId":"lcfa@989","time":59063.001,"message":"← 201 Created"}
+{"type":"log","callId":"lcfa@989","time":59063.013,"message":"  vary: Origin"}
+{"type":"log","callId":"lcfa@989","time":59063.016,"message":"  content-type: application/json; charset=utf-8"}
+{"type":"log","callId":"lcfa@989","time":59063.02,"message":"  content-length: 67"}
+{"type":"log","callId":"lcfa@989","time":59063.023,"message":"  date: Wed, 14 Oct 2026 02:08:43 GMT"}
+{"type":"log","callId":"lcfa@989","time":59063.025,"message":"  connection: keep-alive"}
+{"type":"log","callId":"lcfa@989","time":59063.028,"message":"  keep-alive: timeout=72"}
+{"type":"after","callId":"lcfa@989","endTime":59063.118,"result":{"response":{"url":"http://localhost:4100/runs","status":201,"statusText":"Created","headers":[{"name":"vary","value":"Origin"},{"name":"content-type","value":"application/json; charset=utf-8"},{"name":"content-length","value":"67"},{"name":"Date","value":"Wed, 14 Oct 2026 02:08:43 GMT"},{"name":"Connection","value":"keep-alive"},{"name":"Keep-Alive","value":"timeout=72"}],"serverAddr":{"ipAddress":"127.0.0.1","port":4100},"timing":{"startTime":1791943723150,"domainLookupStart":0,"domainLookupEnd":2.091999999996915,"connectStart":2.091999999996915,"secureConnectionStart":-1,"connectEnd":2.644000000000233,"requestStart":2.644000000000233,"responseStart":4.5570000000006985},"responseEndTiming":4.77900000000227,"fetchUid":"955d91de779d307ac7625eb5e7876219"}}}
+{"type":"before","callId":"lcfa@992","startTime":63065.92,"class":"APIRequestContext","method":"fetch","params":{"url":"http://localhost:4100/runs/r_dc792554/markets","method":"GET"}}
+{"type":"log","callId":"lcfa@992","time":63066.404,"message":"→ GET http://localhost:4100/runs/r_dc792554/markets"}
+{"type":"log","callId":"lcfa@992","time":63066.417,"message":"  user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36"}
+{"type":"log","callId":"lcfa@992","time":63066.419,"message":"  accept: */*"}
+{"type":"log","callId":"lcfa@992","time":63066.421,"message":"  accept-encoding: gzip,deflate,br"}
+{"type":"log","callId":"lcfa@992","time":63412.977,"message":"← 200 OK"}
+{"type":"log","callId":"lcfa@992","time":63412.989,"message":"  vary: Origin"}
+{"type":"log","callId":"lcfa@992","time":63412.995,"message":"  content-type: application/json; charset=utf-8"}
+{"type":"log","callId":"lcfa@992","time":63412.998,"message":"  content-length: 451"}
+{"type":"log","callId":"lcfa@992","time":63413.001,"message":"  date: Wed, 14 Oct 2026 02:08:47 GMT"}
+{"type":"log","callId":"lcfa@992","time":63413.004,"message":"  connection: keep-alive"}
+{"type":"log","callId":"lcfa@992","time":63413.006,"message":"  keep-alive: timeout=72"}
+{"type":"after","callId":"lcfa@992","endTime":63413.117,"result":{"response":{"url":"http://localhost:4100/runs/r_dc792554/markets","status":200,"statusText":"OK","headers":[{"name":"vary","value":"Origin"},{"name":"content-type","value":"application/json; charset=utf-8"},{"name":"content-length","value":"451"},{"name":"Date","value":"Wed, 14 Oct 2026 02:08:47 GMT"},{"name":"Connection","value":"keep-alive"},{"name":"Keep-Alive","value":"timeout=72"}],"serverAddr":{"ipAddress":"127.0.0.1","port":4100},"timing":{"startTime":1791943727159,"domainLookupStart":-1,"domainLookupEnd":-1,"connectStart":-1,"secureConnectionStart":-1,"connectEnd":-1,"requestStart":0.3250000000043656,"responseStart":346.1339999999982},"responseEndTiming":346.39600000000064,"fetchUid":"2674387c64f2e53ca398422151b3a837"}}}
+{"type":"before","callId":"lcfa@996","startTime":63414.973,"class":"APIRequestContext","method":"fetch","params":{"url":"http://localhost:4100/runs/r_dc792554/bets","method":"POST","jsonData":"{\"marketId\":\"m_fmoas4i\",\"bettorId\":\"a\",\"choice\":true,\"amount\":100}"}}
+{"type":"log","callId":"lcfa@996","time":63415.445,"message":"→ POST http://localhost:4100/runs/r_dc792554/bets"}
+{"type":"log","callId":"lcfa@996","time":63415.46,"message":"  user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36"}
+{"type":"log","callId":"lcfa@996","time":63415.479,"message":"  accept: */*"}
+{"type":"log","callId":"lcfa@996","time":63415.482,"message":"  accept-encoding: gzip,deflate,br"}
+{"type":"log","callId":"lcfa@996","time":63415.485,"message":"  content-type: application/json"}
+{"type":"log","callId":"lcfa@996","time":63415.487,"message":"  content-length: 66"}
+{"type":"log","callId":"lcfa@996","time":63985.62,"message":"← 200 OK"}
+{"type":"log","callId":"lcfa@996","time":63985.629,"message":"  vary: Origin"}
+{"type":"log","callId":"lcfa@996","time":63985.637,"message":"  content-type: application/json; charset=utf-8"}
+{"type":"log","callId":"lcfa@996","time":63985.639,"message":"  content-length: 349"}
+{"type":"log","callId":"lcfa@996","time":63985.642,"message":"  date: Wed, 14 Oct 2026 02:08:48 GMT"}
+{"type":"log","callId":"lcfa@996","time":63985.645,"message":"  connection: keep-alive"}
+{"type":"log","callId":"lcfa@996","time":63985.648,"message":"  keep-alive: timeout=72"}
+{"type":"after","callId":"lcfa@996","endTime":63985.737,"result":{"response":{"url":"http://localhost:4100/runs/r_dc792554/bets","status":200,"statusText":"OK","headers":[{"name":"vary","value":"Origin"},{"name":"content-type","value":"application/json; charset=utf-8"},{"name":"content-length","value":"349"},{"name":"Date","value":"Wed, 14 Oct 2026 02:08:48 GMT"},{"name":"Connection","value":"keep-alive"},{"name":"Keep-Alive","value":"timeout=72"}],"serverAddr":{"ipAddress":"127.0.0.1","port":4100},"timing":{"startTime":1791943727508,"domainLookupStart":-1,"domainLookupEnd":-1,"connectStart":-1,"secureConnectionStart":-1,"connectEnd":-1,"requestStart":0.3580000000001746,"responseStart":569.8300000000017},"responseEndTiming":570.0809999999983,"fetchUid":"829a7911bc2070db2da90fb33b2684ea"}}}
+{"type":"before","callId":"lcfa@999","startTime":63987.445,"class":"APIRequestContext","method":"fetch","params":{"url":"http://localhost:4100/runs/r_dc792554/bets","method":"POST","jsonData":"{\"marketId\":\"m_fmoas4i\",\"bettorId\":\"b\",\"choice\":false,\"amount\":60}"}}
+{"type":"log","callId":"lcfa@999","time":63987.917,"message":"→ POST http://localhost:4100/runs/r_dc792554/bets"}
+{"type":"log","callId":"lcfa@999","time":63987.931,"message":"  user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36"}
+{"type":"log","callId":"lcfa@999","time":63987.935,"message":"  accept: */*"}
+{"type":"log","callId":"lcfa@999","time":63987.938,"message":"  accept-encoding: gzip,deflate,br"}
+{"type":"log","callId":"lcfa@999","time":63987.941,"message":"  content-type: application/json"}
+{"type":"log","callId":"lcfa@999","time":63987.944,"message":"  content-length: 66"}
+{"type":"log","callId":"lcfa@999","time":64558.164,"message":"← 200 OK"}
+{"type":"log","callId":"lcfa@999","time":64558.174,"message":"  vary: Origin"}
+{"type":"log","callId":"lcfa@999","time":64558.18,"message":"  content-type: application/json; charset=utf-8"}
+{"type":"log","callId":"lcfa@999","time":64558.183,"message":"  content-length: 446"}
+{"type":"log","callId":"lcfa@999","time":64558.186,"message":"  date: Wed, 14 Oct 2026 02:08:48 GMT"}
+{"type":"log","callId":"lcfa@999","time":64558.189,"message":"  connection: keep-alive"}
+{"type":"log","callId":"lcfa@999","time":64558.191,"message":"  keep-alive: timeout=72"}
+{"type":"after","callId":"lcfa@999","endTime":64558.315,"result":{"response":{"url":"http://localhost:4100/runs/r_dc792554/bets","status":200,"statusText":"OK","headers":[{"name":"vary","value":"Origin"},{"name":"content-type","value":"application/json; charset=utf-8"},{"name":"content-length","value":"446"},{"name":"Date","value":"Wed, 14 Oct 2026 02:08:48 GMT"},{"name":"Connection","value":"keep-alive"},{"name":"Keep-Alive","value":"timeout=72"}],"serverAddr":{"ipAddress":"127.0.0.1","port":4100},"timing":{"startTime":1791943728080,"domainLookupStart":-1,"domainLookupEnd":-1,"connectStart":-1,"secureConnectionStart":-1,"connectEnd":-1,"requestStart":0.30500000000029104,"responseStart":569.9659999999931},"responseEndTiming":570.1759999999995,"fetchUid":"4fd42548e3e46a0438902b71db9f9d3e"}}}
+{"type":"before","callId":"lcfa@1002","startTime":64559.52,"class":"APIRequestContext","method":"fetch","params":{"url":"http://localhost:4100/runs/r_dc792554/bets","method":"POST","jsonData":"{\"marketId\":\"m_fmoas4i\",\"bettorId\":\"c\",\"choice\":true,\"amount\":40}"}}
+{"type":"log","callId":"lcfa@1002","time":64559.918,"message":"→ POST http://localhost:4100/runs/r_dc792554/bets"}
+{"type":"log","callId":"lcfa@1002","time":64559.928,"message":"  user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36"}
+{"type":"log","callId":"lcfa@1002","time":64559.931,"message":"  accept: */*"}
+{"type":"log","callId":"lcfa@1002","time":64559.932,"message":"  accept-encoding: gzip,deflate,br"}
+{"type":"log","callId":"lcfa@1002","time":64559.934,"message":"  content-type: application/json"}
+{"type":"log","callId":"lcfa@1002","time":64559.935,"message":"  content-length: 65"}
+{"type":"log","callId":"lcfa@1002","time":65133.947,"message":"← 200 OK"}
+{"type":"log","callId":"lcfa@1002","time":65133.956,"message":"  vary: Origin"}
+{"type":"log","callId":"lcfa@1002","time":65133.961,"message":"  content-type: application/json; charset=utf-8"}
+{"type":"log","callId":"lcfa@1002","time":65133.963,"message":"  content-length: 541"}
+{"type":"log","callId":"lcfa@1002","time":65133.965,"message":"  date: Wed, 14 Oct 2026 02:08:49 GMT"}
+{"type":"log","callId":"lcfa@1002","time":65133.966,"message":"  connection: keep-alive"}
+{"type":"log","callId":"lcfa@1002","time":65133.968,"message":"  keep-alive: timeout=72"}
+{"type":"after","callId":"lcfa@1002","endTime":65134.058,"result":{"response":{"url":"http://localhost:4100/runs/r_dc792554/bets","status":200,"statusText":"OK","headers":[{"name":"vary","value":"Origin"},{"name":"content-type","value":"application/json; charset=utf-8"},{"name":"content-length","value":"541"},{"name":"Date","value":"Wed, 14 Oct 2026 02:08:49 GMT"},{"name":"Connection","value":"keep-alive"},{"name":"Keep-Alive","value":"timeout=72"}],"serverAddr":{"ipAddress":"127.0.0.1","port":4100},"timing":{"startTime":1791943728652,"domainLookupStart":-1,"domainLookupEnd":-1,"connectStart":-1,"secureConnectionStart":-1,"connectEnd":-1,"requestStart":0.25,"responseStart":573.7160000000003},"responseEndTiming":573.9179999999978,"fetchUid":"795d0d6dc1553fe42ebc4e8760f3cac2"}}}
+{"type":"before","callId":"lcfa@1005","startTime":66635.871,"class":"APIRequestContext","method":"fetch","params":{"url":"http://localhost:4100/runs/r_dc792554/markets","method":"GET"}}
+{"type":"log","callId":"lcfa@1005","time":66636.841,"message":"→ GET http://localhost:4100/runs/r_dc792554/markets"}
+{"type":"log","callId":"lcfa@1005","time":66636.861,"message":"  user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36"}
+{"type":"log","callId":"lcfa@1005","time":66636.864,"message":"  accept: */*"}
+{"type":"log","callId":"lcfa@1005","time":66636.867,"message":"  accept-encoding: gzip,deflate,br"}
+{"type":"log","callId":"lcfa@1005","time":66981.528,"message":"← 200 OK"}
+{"type":"log","callId":"lcfa@1005","time":66981.542,"message":"  vary: Origin"}
+{"type":"log","callId":"lcfa@1005","time":66981.551,"message":"  content-type: application/json; charset=utf-8"}
+{"type":"log","callId":"lcfa@1005","time":66981.554,"message":"  content-length: 753"}
+{"type":"log","callId":"lcfa@1005","time":66981.557,"message":"  date: Wed, 14 Oct 2026 02:08:51 GMT"}
+{"type":"log","callId":"lcfa@1005","time":66981.559,"message":"  connection: keep-alive"}
+{"type":"log","callId":"lcfa@1005","time":66981.561,"message":"  keep-alive: timeout=72"}
+{"type":"after","callId":"lcfa@1005","endTime":66981.691,"result":{"response":{"url":"http://localhost:4100/runs/r_dc792554/markets","status":200,"statusText":"OK","headers":[{"name":"vary","value":"Origin"},{"name":"content-type","value":"application/json; charset=utf-8"},{"name":"content-length","value":"753"},{"name":"Date","value":"Wed, 14 Oct 2026 02:08:51 GMT"},{"name":"Connection","value":"keep-alive"},{"name":"Keep-Alive","value":"timeout=72"}],"serverAddr":{"ipAddress":"127.0.0.1","port":4100},"timing":{"startTime":1791943730729,"domainLookupStart":-1,"domainLookupEnd":-1,"connectStart":-1,"secureConnectionStart":-1,"connectEnd":-1,"requestStart":0.34100000000034925,"responseStart":344.29899999999907},"responseEndTiming":344.54499999999825,"fetchUid":"b44341bc935b106fc903b9366d5ab33e"}}}
+{"type":"before","callId":"lcfa@1008","startTime":68485.12,"class":"APIRequestContext","method":"fetch","params":{"url":"http://localhost:4100/runs/r_dc792554/markets","method":"GET"}}
+{"type":"log","callId":"lcfa@1008","time":68485.721,"message":"→ GET http://localhost:4100/runs/r_dc792554/markets"}
+{"type":"log","callId":"lcfa@1008","time":68485.737,"message":"  user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36"}
+{"type":"log","callId":"lcfa@1008","time":68485.741,"message":"  accept: */*"}
+{"type":"log","callId":"lcfa@1008","time":68485.743,"message":"  accept-encoding: gzip,deflate,br"}
+{"type":"log","callId":"lcfa@1008","time":68828.61,"message":"← 200 OK"}
+{"type":"log","callId":"lcfa@1008","time":68828.62,"message":"  vary: Origin"}
+{"type":"log","callId":"lcfa@1008","time":68828.627,"message":"  content-type: application/json; charset=utf-8"}
+{"type":"log","callId":"lcfa@1008","time":68828.63,"message":"  content-length: 753"}
+{"type":"log","callId":"lcfa@1008","time":68828.633,"message":"  date: Wed, 14 Oct 2026 02:08:52 GMT"}
+{"type":"log","callId":"lcfa@1008","time":68828.636,"message":"  connection: keep-alive"}
+{"type":"log","callId":"lcfa@1008","time":68828.639,"message":"  keep-alive: timeout=72"}
+{"type":"after","callId":"lcfa@1008","endTime":68828.754,"result":{"response":{"url":"http://localhost:4100/runs/r_dc792554/markets","status":200,"statusText":"OK","headers":[{"name":"vary","value":"Origin"},{"name":"content-type","value":"application/json; charset=utf-8"},{"name":"content-length","value":"753"},{"name":"Date","value":"Wed, 14 Oct 2026 02:08:52 GMT"},{"name":"Connection","value":"keep-alive"},{"name":"Keep-Alive","value":"timeout=72"}],"serverAddr":{"ipAddress":"127.0.0.1","port":4100},"timing":{"startTime":1791943732578,"domainLookupStart":-1,"domainLookupEnd":-1,"connectStart":-1,"secureConnectionStart":-1,"connectEnd":-1,"requestStart":0.40199999998731073,"responseStart":342.57799999999406},"responseEndTiming":342.8799999999901,"fetchUid":"19f9da13ede914557308d1b65e471b36"}}}
+{"type":"before","callId":"lcfa@1011","startTime":70330.499,"class":"APIRequestContext","method":"fetch","params":{"url":"http://localhost:4100/runs/r_dc792554/markets","method":"GET"}}
+{"type":"log","callId":"lcfa@1011","time":70330.988,"message":"→ GET http://localhost:4100/runs/r_dc792554/markets"}
+{"type":"log","callId":"lcfa@1011","time":70331,"message":"  user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36"}
+{"type":"log","callId":"lcfa@1011","time":70331.002,"message":"  accept: */*"}
+{"type":"log","callId":"lcfa@1011","time":70331.004,"message":"  accept-encoding: gzip,deflate,br"}
+{"type":"log","callId":"lcfa@1011","time":70676.332,"message":"← 200 OK"}
+{"type":"log","callId":"lcfa@1011","time":70676.341,"message":"  vary: Origin"}
+{"type":"log","callId":"lcfa@1011","time":70676.346,"message":"  content-type: application/json; charset=utf-8"}
+{"type":"log","callId":"lcfa@1011","time":70676.348,"message":"  content-length: 753"}
+{"type":"log","callId":"lcfa@1011","time":70676.35,"message":"  date: Wed, 14 Oct 2026 02:08:54 GMT"}
+{"type":"log","callId":"lcfa@1011","time":70676.352,"message":"  connection: keep-alive"}
+{"type":"log","callId":"lcfa@1011","time":70676.354,"message":"  keep-alive: timeout=72"}
+{"type":"after","callId":"lcfa@1011","endTime":70676.451,"result":{"response":{"url":"http://localhost:4100/runs/r_dc792554/markets","status":200,"statusText":"OK","headers":[{"name":"vary","value":"Origin"},{"name":"content-type","value":"application/json; charset=utf-8"},{"name":"content-length","value":"753"},{"name":"Date","value":"Wed, 14 Oct 2026 02:08:54 GMT"},{"name":"Connection","value":"keep-alive"},{"name":"Keep-Alive","value":"timeout=72"}],"serverAddr":{"ipAddress":"127.0.0.1","port":4100},"timing":{"startTime":1791943734423,"domainLookupStart":-1,"domainLookupEnd":-1,"connectStart":-1,"secureConnectionStart":-1,"connectEnd":-1,"requestStart":0.3040000000037253,"responseStart":345.0200000000041},"responseEndTiming":345.22000000000116,"fetchUid":"78683cca9d333e948fc12e24a657ca2b"}}}
+{"type":"before","callId":"lcfa@1014","startTime":72179.525,"class":"APIRequestContext","method":"fetch","params":{"url":"http://localhost:4100/runs/r_dc792554/markets","method":"GET"}}
+{"type":"log","callId":"lcfa@1014","time":72180.02,"message":"→ GET http://localhost:4100/runs/r_dc792554/markets"}
+{"type":"log","callId":"lcfa@1014","time":72180.035,"message":"  user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36"}
+{"type":"log","callId":"lcfa@1014","time":72180.039,"message":"  accept: */*"}
+{"type":"log","callId":"lcfa@1014","time":72180.041,"message":"  accept-encoding: gzip,deflate,br"}
+{"type":"log","callId":"lcfa@1014","time":72519.925,"message":"← 200 OK"}
+{"type":"log","callId":"lcfa@1014","time":72519.933,"message":"  vary: Origin"}
+{"type":"log","callId":"lcfa@1014","time":72519.939,"message":"  content-type: application/json; charset=utf-8"}
+{"type":"log","callId":"lcfa@1014","time":72519.941,"message":"  content-length: 753"}
+{"type":"log","callId":"lcfa@1014","time":72519.943,"message":"  date: Wed, 14 Oct 2026 02:08:56 GMT"}
+{"type":"log","callId":"lcfa@1014","time":72519.944,"message":"  connection: keep-alive"}
+{"type":"log","callId":"lcfa@1014","time":72519.946,"message":"  keep-alive: timeout=72"}
+{"type":"after","callId":"lcfa@1014","endTime":72520.033,"result":{"response":{"url":"http://localhost:4100/runs/r_dc792554/markets","status":200,"statusText":"OK","headers":[{"name":"vary","value":"Origin"},{"name":"content-type","value":"application/json; charset=utf-8"},{"name":"content-length","value":"753"},{"name":"Date","value":"Wed, 14 Oct 2026 02:08:56 GMT"},{"name":"Connection","value":"keep-alive"},{"name":"Keep-Alive","value":"timeout=72"}],"serverAddr":{"ipAddress":"127.0.0.1","port":4100},"timing":{"startTime":1791943736272,"domainLookupStart":-1,"domainLookupEnd":-1,"connectStart":-1,"secureConnectionStart":-1,"connectEnd":-1,"requestStart":0.294000000008964,"responseStart":339.71800000000803},"responseEndTiming":339.8680000000022,"fetchUid":"2c68e5018b7612b1d45ede98578b709c"}}}
+{"type":"before","callId":"lcfa@1017","startTime":74023.191,"class":"APIRequestContext","method":"fetch","params":{"url":"http://localhost:4100/runs/r_dc792554/markets","method":"GET"}}
+{"type":"log","callId":"lcfa@1017","time":74023.715,"message":"→ GET http://localhost:4100/runs/r_dc792554/markets"}
+{"type":"log","callId":"lcfa@1017","time":74023.731,"message":"  user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36"}
+{"type":"log","callId":"lcfa@1017","time":74023.734,"message":"  accept: */*"}
+{"type":"log","callId":"lcfa@1017","time":74023.737,"message":"  accept-encoding: gzip,deflate,br"}
+{"type":"log","callId":"lcfa@1017","time":74367.003,"message":"← 200 OK"}
+{"type":"log","callId":"lcfa@1017","time":74367.015,"message":"  vary: Origin"}
+{"type":"log","callId":"lcfa@1017","time":74367.023,"message":"  content-type: application/json; charset=utf-8"}
+{"type":"log","callId":"lcfa@1017","time":74367.026,"message":"  content-length: 753"}
+{"type":"log","callId":"lcfa@1017","time":74367.028,"message":"  date: Wed, 14 Oct 2026 02:08:58 GMT"}
+{"type":"log","callId":"lcfa@1017","time":74367.031,"message":"  connection: keep-alive"}
+{"type":"log","callId":"lcfa@1017","time":74367.033,"message":"  keep-alive: timeout=72"}
+{"type":"after","callId":"lcfa@1017","endTime":74367.158,"result":{"response":{"url":"http://localhost:4100/runs/r_dc792554/markets","status":200,"statusText":"OK","headers":[{"name":"vary","value":"Origin"},{"name":"content-type","value":"application/json; charset=utf-8"},{"name":"content-length","value":"753"},{"name":"Date","value":"Wed, 14 Oct 2026 02:08:58 GMT"},{"name":"Connection","value":"keep-alive"},{"name":"Keep-Alive","value":"timeout=72"}],"serverAddr":{"ipAddress":"127.0.0.1","port":4100},"timing":{"startTime":1791943738116,"domainLookupStart":-1,"domainLookupEnd":-1,"connectStart":-1,"secureConnectionStart":-1,"connectEnd":-1,"requestStart":0.3209999999962747,"responseStart":343.0430000000051},"responseEndTiming":343.24099999999453,"fetchUid":"a54c127a5e473109b23a6dad42798aaa"}}}
+{"type":"before","callId":"lcfa@1020","startTime":75870.316,"class":"APIRequestContext","method":"fetch","params":{"url":"http://localhost:4100/runs/r_dc792554/markets","method":"GET"}}
+{"type":"log","callId":"lcfa@1020","time":75870.784,"message":"→ GET http://localhost:4100/runs/r_dc792554/markets"}
+{"type":"log","callId":"lcfa@1020","time":75870.8,"message":"  user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36"}
+{"type":"log","callId":"lcfa@1020","time":75870.803,"message":"  accept: */*"}
+{"type":"log","callId":"lcfa@1020","time":75870.805,"message":"  accept-encoding: gzip,deflate,br"}
+{"type":"log","callId":"lcfa@1020","time":76214.693,"message":"← 200 OK"}
+{"type":"log","callId":"lcfa@1020","time":76214.702,"message":"  vary: Origin"}
+{"type":"log","callId":"lcfa@1020","time":76214.708,"message":"  content-type: application/json; charset=utf-8"}
+{"type":"log","callId":"lcfa@1020","time":76214.71,"message":"  content-length: 753"}
+{"type":"log","callId":"lcfa@1020","time":76214.712,"message":"  date: Wed, 14 Oct 2026 02:09:00 GMT"}
+{"type":"log","callId":"lcfa@1020","time":76214.713,"message":"  connection: keep-alive"}
+{"type":"log","callId":"lcfa@1020","time":76214.715,"message":"  keep-alive: timeout=72"}
+{"type":"after","callId":"lcfa@1020","endTime":76214.801,"result":{"response":{"url":"http://localhost:4100/runs/r_dc792554/markets","status":200,"statusText":"OK","headers":[{"name":"vary","value":"Origin"},{"name":"content-type","value":"application/json; charset=utf-8"},{"name":"content-length","value":"753"},{"name":"Date","value":"Wed, 14 Oct 2026 02:09:00 GMT"},{"name":"Connection","value":"keep-alive"},{"name":"Keep-Alive","value":"timeout=72"}],"serverAddr":{"ipAddress":"127.0.0.1","port":4100},"timing":{"startTime":1791943739963,"domainLookupStart":-1,"domainLookupEnd":-1,"connectStart":-1,"secureConnectionStart":-1,"connectEnd":-1,"requestStart":0.2900000000081491,"responseStart":343.73799999999756},"responseEndTiming":343.8950000000041,"fetchUid":"ac14dd58d56540926f714a24ac034259"}}}
+{"type":"before","callId":"lcfa@1023","startTime":77718.554,"class":"APIRequestContext","method":"fetch","params":{"url":"http://localhost:4100/runs/r_dc792554/markets","method":"GET"}}
+{"type":"log","callId":"lcfa@1023","time":77719.423,"message":"→ GET http://localhost:4100/runs/r_dc792554/markets"}
+{"type":"log","callId":"lcfa@1023","time":77719.446,"message":"  user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36"}
+{"type":"log","callId":"lcfa@1023","time":77719.449,"message":"  accept: */*"}
+{"type":"log","callId":"lcfa@1023","time":77719.452,"message":"  accept-encoding: gzip,deflate,br"}
+{"type":"log","callId":"lcfa@1023","time":78061.975,"message":"← 200 OK"}
+{"type":"log","callId":"lcfa@1023","time":78061.986,"message":"  vary: Origin"}
+{"type":"log","callId":"lcfa@1023","time":78061.995,"message":"  content-type: application/json; charset=utf-8"}
+{"type":"log","callId":"lcfa@1023","time":78061.997,"message":"  content-length: 753"}
+{"type":"log","callId":"lcfa@1023","time":78062,"message":"  date: Wed, 14 Oct 2026 02:09:02 GMT"}
+{"type":"log","callId":"lcfa@1023","time":78062.003,"message":"  connection: keep-alive"}
+{"type":"log","callId":"lcfa@1023","time":78062.005,"message":"  keep-alive: timeout=72"}
+{"type":"after","callId":"lcfa@1023","endTime":78062.112,"result":{"response":{"url":"http://localhost:4100/runs/r_dc792554/markets","status":200,"statusText":"OK","headers":[{"name":"vary","value":"Origin"},{"name":"content-type","value":"application/json; charset=utf-8"},{"name":"content-length","value":"753"},{"name":"Date","value":"Wed, 14 Oct 2026 02:09:02 GMT"},{"name":"Connection","value":"keep-alive"},{"name":"Keep-Alive","value":"timeout=72"}],"serverAddr":{"ipAddress":"127.0.0.1","port":4100},"timing":{"startTime":1791943741811,"domainLookupStart":-1,"domainLookupEnd":-1,"connectStart":-1,"secureConnectionStart":-1,"connectEnd":-1,"requestStart":0.7580000000016298,"responseStart":342.7459999999992},"responseEndTiming":342.9250000000029,"fetchUid":"9a95cc4d7e249a119b14096d03e6f2a0"}}}
+{"type":"before","callId":"lcfa@1026","startTime":79564.027,"class":"APIRequestContext","method":"fetch","params":{"url":"http://localhost:4100/runs/r_dc792554/markets","method":"GET"}}
+{"type":"log","callId":"lcfa@1026","time":79564.455,"message":"→ GET http://localhost:4100/runs/r_dc792554/markets"}
+{"type":"log","callId":"lcfa@1026","time":79564.468,"message":"  user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36"}
+{"type":"log","callId":"lcfa@1026","time":79564.47,"message":"  accept: */*"}
+{"type":"log","callId":"lcfa@1026","time":79564.472,"message":"  accept-encoding: gzip,deflate,br"}
+{"type":"log","callId":"lcfa@1026","time":79905.775,"message":"← 200 OK"}
+{"type":"log","callId":"lcfa@1026","time":79905.783,"message":"  vary: Origin"}
+{"type":"log","callId":"lcfa@1026","time":79905.79,"message":"  content-type: application/json; charset=utf-8"}
+{"type":"log","callId":"lcfa@1026","time":79905.793,"message":"  content-length: 790"}
+{"type":"log","callId":"lcfa@1026","time":79905.794,"message":"  date: Wed, 14 Oct 2026 02:09:03 GMT"}
+{"type":"log","callId":"lcfa@1026","time":79905.796,"message":"  connection: keep-alive"}
+{"type":"log","callId":"lcfa@1026","time":79905.798,"message":"  keep-alive: timeout=72"}
+{"type":"after","callId":"lcfa@1026","endTime":79905.888,"result":{"response":{"url":"http://localhost:4100/runs/r_dc792554/markets","status":200,"statusText":"OK","headers":[{"name":"vary","value":"Origin"},{"name":"content-type","value":"application/json; charset=utf-8"},{"name":"content-length","value":"790"},{"name":"Date","value":"Wed, 14 Oct 2026 02:09:03 GMT"},{"name":"Connection","value":"keep-alive"},{"name":"Keep-Alive","value":"timeout=72"}],"serverAddr":{"ipAddress":"127.0.0.1","port":4100},"timing":{"startTime":1791943743657,"domainLookupStart":-1,"domainLookupEnd":-1,"connectStart":-1,"secureConnectionStart":-1,"connectEnd":-1,"requestStart":0.23500000000058208,"responseStart":341.0249999999942},"responseEndTiming":341.22900000000664,"fetchUid":"5b6c2764fa1c021c4df0d511c84439b4"}}}
+{"type":"before","callId":"lcfa@1030","startTime":79907.612,"class":"APIRequestContext","method":"fetch","params":{"url":"http://localhost:4100/runs/r_dc792554/ledger","method":"GET"}}
+{"type":"log","callId":"lcfa@1030","time":79907.88,"message":"→ GET http://localhost:4100/runs/r_dc792554/ledger"}
+{"type":"log","callId":"lcfa@1030","time":79907.892,"message":"  user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36"}
+{"type":"log","callId":"lcfa@1030","time":79907.894,"message":"  accept: */*"}
+{"type":"log","callId":"lcfa@1030","time":79907.895,"message":"  accept-encoding: gzip,deflate,br"}
+{"type":"log","callId":"lcfa@1030","time":80021.883,"message":"← 200 OK"}
+{"type":"log","callId":"lcfa@1030","time":80021.893,"message":"  vary: Origin"}
+{"type":"log","callId":"lcfa@1030","time":80021.903,"message":"  content-type: application/json; charset=utf-8"}
+{"type":"log","callId":"lcfa@1030","time":80021.906,"message":"  content-length: 559"}
+{"type":"log","callId":"lcfa@1030","time":80021.908,"message":"  date: Wed, 14 Oct 2026 02:09:04 GMT"}
+{"type":"log","callId":"lcfa@1030","time":80021.91,"message":"  connection: keep-alive"}
+{"type":"log","callId":"lcfa@1030","time":80021.911,"message":"  keep-alive: timeout=72"}
+{"type":"after","callId":"lcfa@1030","endTime":80022.004,"result":{"response":{"url":"http://localhost:4100/runs/r_dc792554/ledger","status":200,"statusText":"OK","headers":[{"name":"vary","value":"Origin"},{"name":"content-type","value":"application/json; charset=utf-8"},{"name":"content-length","value":"559"},{"name":"Date","value":"Wed, 14 Oct 2026 02:09:04 GMT"},{"name":"Connection","value":"keep-alive"},{"name":"Keep-Alive","value":"timeout=72"}],"serverAddr":{"ipAddress":"127.0.0.1","port":4100},"timing":{"startTime":1791943744000,"domainLookupStart":-1,"domainLookupEnd":-1,"connectStart":-1,"secureConnectionStart":-1,"connectEnd":-1,"requestStart":0.19100000000617,"responseStart":113.6310000000085},"responseEndTiming":113.84700000000885,"fetchUid":"9f6a8498c1bd130ee73318627ee52795"}}}
+{"type":"before","callId":"lcfa@1036","startTime":80024.428,"class":"APIRequestContext","method":"fetch","params":{"url":"http://localhost:4100/runs/r_dc792554","method":"DELETE"}}
+{"type":"log","callId":"lcfa@1036","time":80024.694,"message":"→ DELETE http://localhost:4100/runs/r_dc792554"}
+{"type":"log","callId":"lcfa@1036","time":80024.703,"message":"  user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36"}
+{"type":"log","callId":"lcfa@1036","time":80024.705,"message":"  accept: */*"}
+{"type":"log","callId":"lcfa@1036","time":80024.707,"message":"  accept-encoding: gzip,deflate,br"}
+{"type":"log","callId":"lcfa@1036","time":80141.658,"message":"← 200 OK"}
+{"type":"log","callId":"lcfa@1036","time":80141.666,"message":"  vary: Origin"}
+{"type":"log","callId":"lcfa@1036","time":80141.673,"message":"  content-type: application/json; charset=utf-8"}
+{"type":"log","callId":"lcfa@1036","time":80141.675,"message":"  content-length: 24"}
+{"type":"log","callId":"lcfa@1036","time":80141.677,"message":"  date: Wed, 14 Oct 2026 02:09:04 GMT"}
+{"type":"log","callId":"lcfa@1036","time":80141.678,"message":"  connection: keep-alive"}
+{"type":"log","callId":"lcfa@1036","time":80141.68,"message":"  keep-alive: timeout=72"}
+{"type":"after","callId":"lcfa@1036","endTime":80141.769,"result":{"response":{"url":"http://localhost:4100/runs/r_dc792554","status":200,"statusText":"OK","headers":[{"name":"vary","value":"Origin"},{"name":"content-type","value":"application/json; charset=utf-8"},{"name":"content-length","value":"24"},{"name":"Date","value":"Wed, 14 Oct 2026 02:09:04 GMT"},{"name":"Connection","value":"keep-alive"},{"name":"Keep-Alive","value":"timeout=72"}],"serverAddr":{"ipAddress":"127.0.0.1","port":4100},"timing":{"startTime":1791943744117,"domainLookupStart":-1,"domainLookupEnd":-1,"connectStart":-1,"secureConnectionStart":-1,"connectEnd":-1,"requestStart":0.1879999999946449,"responseStart":116.65099999999802},"responseEndTiming":116.84799999999814,"fetchUid":"03aaefd0725570bff62095b63b863879"}}}

@@ -1,0 +1,257 @@
+// ByteArena data model — derived from recon (100 crawled pages + browser-use analysis)
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  // ByteArena lives in its OWN schema inside neondb. The existing `public`
+  // schema (trades, dex_orders, agents, ...) is never touched by migrations.
+  url       = env("BYTEARENA_DATABASE_URL")
+  directUrl = env("BYTEARENA_DATABASE_URL")
+}
+
+// ---------- accounts ----------
+model User {
+  id            String    @id @default(cuid())
+  handle        String    @unique
+  walletSolana  String?   @unique          // account wallet (SIWS)
+  walletEvm     String?   @unique
+  points        Int       @default(1000)   // "POINTS 1,000" on signup
+  proPlan       ProPlan   @default(NONE)
+  proUntil      DateTime?
+  agents        Agent[]
+  bets          Bet[]
+  ledger        PointLedger[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+enum ProPlan {
+  NONE
+  MONTHLY
+  ANNUAL
+}
+
+// ---------- agents ----------
+model Agent {
+  id          String       @id @default(cuid())
+  userId      String
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name        String
+  handle      String       @unique
+  tagline     String?                        // "Teslaclawpump · @teslaclawpump"
+  rarity      Rarity       @default(COMMON)
+  level       Int          @default(1)
+  xp          Int          @default(0)
+
+  // Build tab config
+  bodyModel   String?                        // VRM preset id or upload ref
+  headModel   String?
+  colors      Json?                          // palette overrides
+  scene       String       @default("studio")
+  aura        String       @default("auto")
+  mindTier    MindTier     @default(HUMAN)
+  personality Personality  @default(DAREDEVIL)
+  customMind  String?
+  voiceId     String?                        // provider voice key
+  voiceTier   VoiceTier    @default(SERVER_DEFAULT)
+  language    String       @default("en")
+
+  live        Boolean      @default(false)
+  // denormalized card stats (mirrors the reference UI counters)
+  runsCount   Int          @default(0)
+  winsCount   Int          @default(0)
+  gamesCount  Int          @default(0)
+  wallet      AgentWallet?
+  playstyles  AgentGamePlaystyle[]
+  runs        Run[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  @@index([userId])
+}
+
+enum Rarity {
+  COMMON
+  RARE
+  MYTHIC
+}
+enum MindTier {
+  ORC
+  HUMAN
+  WIZARD
+  HIGH_WIZARD
+}
+enum Personality {
+  STRATEGIST
+  DAREDEVIL
+  COMEDIAN
+  CAUTIOUS
+  CUSTOM
+}
+enum VoiceTier {
+  SERVER_DEFAULT
+  STANDARD
+  PREMIUM
+  PRO
+}
+
+model AgentWallet {
+  id        String   @id @default(cuid())
+  agentId   String   @unique
+  agent     Agent    @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  solanaPub String   @unique
+  evmPub    String?  @unique
+  stellarPub String? @unique
+  // secret key stored encrypted; never selected in UI queries
+  encSecret String
+  createdAt DateTime @default(now())
+}
+
+// ---------- games ----------
+model Game {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  name        String
+  description String?
+  kind        GameKind  @default(NATIVE)
+  embedUrl    String?                      // for IFRAME third-party games
+  coverUrl    String?
+  live        Boolean   @default(false)
+  runs        Run[]
+  playstyles  AgentGamePlaystyle[]
+  createdAt   DateTime  @default(now())
+}
+
+enum GameKind {
+  NATIVE
+  IFRAME
+  UPLOADED
+}
+
+model AgentGamePlaystyle {
+  id         String  @id @default(cuid())
+  agentId    String
+  gameId     String
+  agent      Agent   @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  game       Game    @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  playstyle  String  @default("default")
+  rules      String?
+  @@unique([agentId, gameId])
+}
+
+// ---------- runs ----------
+model Run {
+  id         String    @id @default(cuid())
+  agentId    String
+  gameId     String
+  agent      Agent     @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  game       Game      @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  status     RunStatus @default(QUEUED)
+  seed       BigInt
+  result     String?                        // won | lost | no result
+  score      Int?
+  startedAt  DateTime?
+  endedAt    DateTime?
+  events     RunEvent[]
+  markets    Market[]
+  messages   ChatMessage[]
+  createdAt  DateTime  @default(now())
+  @@index([agentId])
+  @@index([gameId])
+  @@index([status])
+}
+
+enum RunStatus {
+  QUEUED
+  LIVE
+  FINISHED
+  ERROR
+}
+
+model RunEvent {
+  id        BigInt   @id @default(autoincrement())
+  runId     String
+  run       Run      @relation(fields: [runId], references: [id], onDelete: Cascade)
+  seq       Int
+  type      String                          // tick | action | thought | state | chat
+  payload   Json
+  at        DateTime @default(now())
+  @@unique([runId, seq])
+  @@index([runId])
+}
+
+// ---------- predictions ----------
+model Market {
+  id        String     @id @default(cuid())
+  runId     String
+  run       Run        @relation(fields: [runId], references: [id], onDelete: Cascade)
+  question  String                          // "Does it reach level 15?"
+  resolvesBy String?                        // game-state predicate key
+  status    MarketStatus @default(OPEN)
+  pot       Int        @default(0)
+  outcome   Boolean?
+  closesAt  DateTime?
+  bets      Bet[]
+  createdAt DateTime   @default(now())
+  @@index([runId])
+  @@index([status])
+}
+
+enum MarketStatus {
+  OPEN
+  CLOSED
+  RESOLVED
+  VOID
+}
+
+model Bet {
+  id       String   @id @default(cuid())
+  marketId String
+  userId   String
+  market   Market   @relation(fields: [marketId], references: [id], onDelete: Cascade)
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  choice   Boolean
+  amount   Int
+  payout   Int?
+  weight   Float    @default(1.0)           // "first in weighs the most"
+  settled  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  @@index([marketId])
+  @@index([userId])
+}
+
+// ---------- social ----------
+model ChatMessage {
+  id        String   @id @default(cuid())
+  runId     String
+  run       Run      @relation(fields: [runId], references: [id], onDelete: Cascade)
+  author    String                          // agent name | "viewer·xxxx" | "predictions"
+  body      String
+  kind      String   @default("chat")       // chat | system | prediction
+  at        DateTime @default(now())
+  @@index([runId])
+}
+
+model LeaderboardEntry {
+  id      String @id @default(cuid())
+  gameId  String
+  agentId String
+  score   Int
+  runId   String
+  at      DateTime @default(now())
+  @@unique([gameId, runId])
+  @@index([gameId, score])
+}
+
+model PointLedger {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  delta     Int
+  reason    String                          // signup | bet | payout | refund
+  refId     String?
+  balance   Int
+  at        DateTime @default(now())
+  @@index([userId])
+}

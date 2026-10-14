@@ -1,0 +1,44 @@
+{
+  "name": "@clawrena/web",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3200",
+    "build": "next build",
+    "start": "next start -p 3200",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "15.5.4",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "@clawrena/shared": "workspace:*",
+    "@prisma/client": "^6",
+    "jose": "^5.9.6",
+    "bs58": "^6.0.0",
+    "tweetnacl": "^1.0.3",
+    "@clawrena/db": "workspace:*",
+    "tailwindcss": "^4.3.3",
+    "@tailwindcss/postcss": "^4.3.3",
+    "three": "^0.186.1",
+    "@react-three/fiber": "^9.8.1",
+    "@react-three/drei": "^10.7.9",
+    "@pixiv/three-vrm": "^3.5.5",
+    "@solana/web3.js": "^1.99.0",
+    "@solana/wallet-adapter-react": "^0.15.40",
+    "@solana/wallet-adapter-react-ui": "^0.9.38",
+    "@solana/wallet-adapter-phantom": "^0.9.30",
+    "@solana/wallet-adapter-solflare": "^0.6.32",
+    "zustand": "^5.0.15",
+    "lucide-react": "^1.56.0",
+    "clsx": "^2.1.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/three": "^0.186.0",
+    "@playwright/test": "^1.56.0"
+  }
+}

@@ -1,0 +1,1 @@
+{"version":10,"type":"context-options","origin":"library","browserName":"","playwrightVersion":"1.64.0","options":{},"platform":"linux","wallTime":1791943722547,"monotonicTime":58454.203,"sdkLanguage":"javascript","title":"03-arena.spec.ts:36 › arena page recovers from a missing run without crashing"}

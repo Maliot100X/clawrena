@@ -1,0 +1,118 @@
+/* ClawRena AI design tokens.
+   Base palette extracted from recon of the reference platform; the *craft* layer
+   (depth, motion, hairlines, spatial rhythm) follows the high-end-visual-design
+   skill: OLED-black base, radial mesh, double-bezel nesting, spring motion. */
+@import "tailwindcss";
+
+@theme {
+  /* ---- surfaces (recon-accurate, deepened to true OLED) ---- */
+  --color-bg:        #050507;   /* was #0a0a0f — true OLED reads richer */
+  --color-panel:     #0e0e14;
+  --color-card:      #0b0b11;
+  --color-line:      rgba(255,255,255,0.08);
+  --color-hairline:  rgba(255,255,255,0.14);   /* brighter top hairline */
+
+  /* ---- text ---- */
+  --color-ink:       #f1ebe0;
+  --color-cream:     #f5ecd6;
+  --color-muted:     #8b8598;   /* was #b9b1c6 — more contrast hierarchy */
+
+  /* ---- accents (Solana + arcade) ---- */
+  --color-sol-purple:#9945ff;
+  --color-sol-green: #14f195;
+  --color-cyan:      #3fd0ff;
+  --color-red:       #ff4d5e;
+  --color-yellow:    #ffcf4d;
+  --color-lavender:  #a78bfa;
+  --color-mint:      #6fe3b4;
+
+  /* ---- fonts ---- */
+  --font-sans:  'Instrument Sans', system-ui, sans-serif;
+  --font-arcade:'Press Start 2P', monospace;
+  --font-term:  'VT323', monospace;
+
+  /* ---- radii (concentric-scale ready) ---- */
+  --radius-btn:   10px;
+  --radius-sol:   12px;
+  --radius-panel: 14px;
+  --radius-card:  16px;
+
+  /* ---- motion: spring-like curves, never linear/ease-in-out ---- */
+  --ease-spring:  cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html, body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* radial mesh glow — the "expensive" background layer */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(60rem 40rem at 12% -10%, rgba(153,69,255,0.10), transparent 60%),
+    radial-gradient(50rem 34rem at 88% 8%,  rgba(20,241,149,0.07), transparent 62%),
+    radial-gradient(40rem 30rem at 50% 110%, rgba(63,208,255,0.05), transparent 60%);
+}
+
+/* film grain — physical paper feel, opacity per skill guidance */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+main, header, footer { position: relative; z-index: 1; }
+
+a { color: var(--color-sol-purple); text-decoration: none;
+    transition: color .5s var(--ease-spring); }
+a:hover { text-decoration: none; color: var(--color-lavender); }
+
+/* eyebrow tag — the microscopic pill that precedes headings */
+.eyebrow {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--color-muted);
+  border: 1px solid var(--color-line);
+  background: rgba(255,255,255,0.02);
+}
+
+/* double-bezel: outer tray + inner core */
+.bezel {
+  padding: 6px;
+  border-radius: 2rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--color-line);
+}
+.bezel > * {
+  border-radius: calc(2rem - 6px);
+  background: var(--color-card);
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.06);
+}
+
+/* motion: spring, applied globally to interactive elements */
+button, .motion { transition: all .6s var(--ease-spring); }
+button:hover { transform: translateY(-1px); }
+button:active { transform: translateY(0) scale(0.985); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
