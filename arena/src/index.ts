@@ -1,6 +1,8 @@
 import { config as loadEnv } from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
+// Local dev reads .env.local; on Railway the platform injects real env vars.
+// dotenv only fills gaps — it never overrides what the platform provides.
 loadEnv({ path: resolve(dirname(fileURLToPath(import.meta.url)), '../.env.local') });
 import Fastify from 'fastify';
 

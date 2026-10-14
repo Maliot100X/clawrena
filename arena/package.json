@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "DOTENV_CONFIG_PATH=.env.local tsx watch src/index.ts",
-    "build": "tsc -p tsconfig.json || true",
-    "start": "DOTENV_CONFIG_PATH=.env.local tsx src/index.ts",
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "tsx src/index.ts",
     "test": "vitest run"
   },
   "dependencies": {
@@ -19,7 +19,8 @@
     "ioredis": "^6.0.0",
     "@clawrena/db": "workspace:*",
     "dotenv": "^17.2.4",
-    "@prisma/client": "^6"
+    "@prisma/client": "^6",
+    "tsx": "^4.20.6"
   },
   "devDependencies": {
     "tsx": "^4.20.6",
@@ -27,5 +28,8 @@
     "@types/ws": "^8.18.1",
     "@types/node": "^22",
     "vitest": "^3.2.4"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }
