@@ -15,7 +15,7 @@ const NAMES = ['byteraa','dot','Clawrena','Pepe','MONEY AI','Oski','Dobi','Gluto
   'Zealon','Tercero','Wanpan','Maruchain','Xynta','Loop'];
 const surprise = () => NAMES[Math.floor(Math.random() * NAMES.length)];
 
-export default function CreateAgent() {
+export default function CreateAgent({ agentName }: { agentName?: string } = {}) {
   const [tab, setTab] = useState<typeof TABS[number]>('Body');
   const [name, setName] = useState('');
   const [preset, setPreset] = useState(AVATARS[0].id);
@@ -44,6 +44,7 @@ export default function CreateAgent() {
           aura, voiceId: voice, voiceTier: tier, language: lang,
           bodyModel: preset, customMind: customMind || undefined }) });
       const j = await r.json();
+      if (r.status === 401) { window.location.href = '/login?next=/build'; return; }
       if (!r.ok) { setErr(j.error ?? 'create failed'); setBusy(false); return; }
 
       // "when agent is created it goes live" — start an arena run for it
@@ -56,6 +57,8 @@ export default function CreateAgent() {
         if (live.arenaUrl) { window.location.href = live.arenaUrl; return; }
       }
       setResult(j.agent);
+      // it belongs to you now — send them to the dashboard to see it
+      setTimeout(() => { window.location.href = '/dashboard'; }, 1400);
     } catch (e: any) { setErr(e.message); }
     setBusy(false);
   }
