@@ -6,8 +6,9 @@
   "main": "src/index.ts",
   "scripts": {
     "migrate": "prisma migrate dev",
-    "generate": "prisma generate",
-    "seed": "node prisma/seed.mjs"
+    "generate": "prisma generate --schema=prisma/schema.prisma",
+    "seed": "node prisma/seed.mjs",
+    "postinstall": "prisma generate --schema=prisma/schema.prisma || true"
   },
   "dependencies": {
     "@prisma/client": "^6",
