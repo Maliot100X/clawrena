@@ -8,7 +8,7 @@ import { readSession, SESSION_COOKIE } from '@/lib/auth';
 import { shortKey } from '@/lib/wallet';
 import { avatarFor } from '@/lib/avatars';
 import AvatarPreview from '@/components/AvatarPreview';
-import LaunchRunButton from '@/components/LaunchRunButton';
+import GoLive from '@/components/GoLive';
 
 export const dynamic = 'force-dynamic';
 
@@ -96,8 +96,9 @@ export default async function Dashboard() {
                       <Stat value={a.winsCount} label="wins" />
                       <Stat value={a.gamesCount} label="games" />
                     </div>
-                    <div style={{ fontSize: 11, color: 'var(--color-muted)', marginTop: 8 }}>
-                      agent wallet {a.wallet ? shortKey(a.wallet.solanaPub) : '—'}
+                    <div style={{ color: 'var(--color-muted)', marginTop: 8,
+                      fontFamily: 'var(--font-term)', fontSize: 13 }}>
+                      wallet {a.wallet ? shortKey(a.wallet.solanaPub) : 'none yet'}
                     </div>
                   </div>
                 </div>
@@ -108,7 +109,7 @@ export default async function Dashboard() {
                       Profile
                     </span>
                   </Link>
-                  <div style={{ flex: 1 }}><LaunchRunButton agentName={a.name} /></div>
+                  <GoLive agentName={a.name} />
                 </div>
               </Card>
             ))}

@@ -12,7 +12,7 @@ export async function POST(req: Request) {
       method: 'POST', headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         agentName: body.agentName ?? 'byteraa',
-        gameSlug: 'grid-survival',
+        gameSlug: body.gameSlug ?? 'grid-survival',
         mindTier: body.mindTier ?? 'HUMAN',
         personality: body.personality ?? 'Daredevil',
         targetLevel: body.targetLevel ?? 8,

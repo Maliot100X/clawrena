@@ -14,7 +14,10 @@ export async function getAgents(limit = 12) {
   });
 }
 export async function getAgent(handle: string) {
-  return db.agent.findUnique({ where: { handle } });
+  return db.agent.findUnique({
+    where: { handle },
+    include: { wallet: { select: { solanaPub: true } } },
+  });
 }
 export async function getLiveRuns() {
   return db.run.findMany({
