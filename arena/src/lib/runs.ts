@@ -3,7 +3,9 @@
 // model is (GLM measured ~3.9s, DeepSeek ~1.5s, Groq ~0.4s). The brain sets an
 // intent; the loop keeps stepping with the last known intent until a new one lands.
 import { randomUUID } from 'crypto';
-import { GridSurvival, type GameState } from '../games/grid-survival.js';
+import { gameFor } from '../games/registry.js';
+import type { GameState } from '../games/grid-survival.js';
+import type { GameEngine, BaseGameState } from '../games/types.js';
 import { redis } from './redis.js';
 import { think } from '../llm/brain.js';
 import { openMarket, openFor, save, settle, evaluate, ledgerAppend, type Market } from './markets.js';
@@ -14,11 +16,11 @@ export interface LiveRun {
   id: string; agentName: string; gameSlug: string;
   mindTier: string; personality: string;
   provider?: string;
-  engine: GridSurvival; state: GameState;
+  engine: GameEngine; state: BaseGameState;
   interval?: NodeJS.Timeout;
   brainTimer?: NodeJS.Timeout;
   startedAt: number;
-  subscribers: Set<(s: GameState) => void>;
+  subscribers: Set<(s: BaseGameState) => void>;
   thoughts: { text: string; provider: string; at: number }[];
   chat?: { author: string; body: string; kind: string; at: number }[];
   replying?: boolean;
@@ -44,7 +46,7 @@ export function createRun(opts: {
   mindTier?: string; personality?: string;
 }) {
   const id = 'r_' + randomUUID().slice(0, 8);
-  const engine = new GridSurvival({
+  const engine = gameFor(opts.gameSlug).make({
     w: 24, h: 16, seed: opts.seed ?? Math.floor(Math.random() * 1e9),
     targetLevel: opts.targetLevel ?? 15,
   });
@@ -127,7 +129,7 @@ export function startRun(id: string, tickMs = 500, useBrain = true) {
       try {
         const t = await think({
           agentName: run.agentName, mindTier: run.mindTier,
-          personality: run.personality, state: run.state,
+          personality: run.personality, state: run.state as GameState,
         });
         run.provider = t.provider;
         run.lastBias = t.bias;
@@ -289,7 +291,7 @@ async function queueReply(run: LiveRun, viewer: string, text: string) {
     const recent = (run.chat ?? []).slice(-6).map(c => `${c.author}: ${c.body}`);
     const r = await replyTo({
       agentName: run.agentName, mindTier: run.mindTier, personality: run.personality,
-      state: run.state, viewer: ask.viewer, message: ask.text, recent,
+      state: run.state as GameState, viewer: ask.viewer, message: ask.text, recent,
     });
     run.provider = r.provider;
     const reply = { author: run.agentName, body: r.say, kind: 'agent', at: Date.now() };
