@@ -172,7 +172,13 @@ app.post('/runs', async (req, reply) => {
 app.get('/runs/:id', async (req, reply) => {
   const { id } = req.params as { id: string };
   const r = getRun(id);
-  if (r) return { source: 'live', ...r.state };
+  if (r) return {
+    source: 'live', ...r.state,
+    // what the agent is doing RIGHT NOW — consumed by the browser game so the
+    // on-screen character is driven by OUR LLM, live.
+    lastBias: r.lastBias,
+    thoughts: r.thoughts?.slice(-3)?.map(t => ({ text: t.text, provider: t.provider })) ?? [],
+  };
   const cached = await redis.get(`run:${id}`);
   if (cached) return { source: 'redis', ...(cached as object) };
   const final = await redis.get(`run:${id}:final`);

@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { Badge, Panel, Button } from '@/components/ui';
 import type { AvatarMood } from './VrmAvatar';
+import GameCanvas from '@/games/GameCanvas';
 import GameBoard from './GameBoard';
 
 const VrmAvatar = dynamic(() => import('./VrmAvatar'), { ssr: false });
@@ -18,8 +19,8 @@ interface Thought { text: string; provider: string; at: number }
 
 const ARENA_WS = process.env.NEXT_PUBLIC_ARENA_WS ?? 'ws://localhost:4100';
 
-export default function LiveArena({ runId, wsBase = ARENA_WS, avatarFile, agentName = 'agent' }:
-  { runId: string; wsBase?: string; avatarFile?: string; agentName?: string }) {
+export default function LiveArena({ runId, wsBase = ARENA_WS, avatarFile, agentName = 'agent', slug }:
+  { runId: string; wsBase?: string; avatarFile?: string; agentName?: string; slug?: string }) {
   const [state, setState] = useState<LiveState | null>(null);
   const [thoughts, setThoughts] = useState<Thought[]>([]);
   const [provider, setProvider] = useState<string>('');
@@ -126,6 +127,7 @@ export default function LiveArena({ runId, wsBase = ARENA_WS, avatarFile, agentN
         {/* row: live game board | the agent itself */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: 0 }}>
           <div style={{ borderRight: '1px solid var(--color-line)', overflow: 'auto' }}>
+            <GameCanvas slug={slug} runId={runId} />
             <GameBoard state={state as any} agentName={agentName} />
           </div>
           <div style={{ height: 440, position: 'relative' }}>
