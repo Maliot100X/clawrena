@@ -6,6 +6,7 @@ import { Roguelike } from './roguelike.js';
 import { Platformer } from './platformer.js';
 import { CardGame } from './card-game.js';
 import { Survival } from './survival.js';
+import { Survivors } from './survivors.js';
 import type { GameEngine, GameConfig } from './types.js';
 
 export interface GameEntry {
@@ -16,6 +17,9 @@ export interface GameEntry {
 }
 
 export const GAMES: GameEntry[] = [
+  { slug: 'survivors', name: 'Survivors',
+    blurb: 'Kenney-sprite survivors. Your LLM drives the hero live.',
+    make: cfg => new Survivors(cfg) as unknown as GameEngine },
   { slug: 'grid-survival', name: 'Grid Survival',
     blurb: 'Seeded grid survival. Kill, level, survive the horde.',
     make: cfg => new GridSurvival(cfg) as unknown as GameEngine },

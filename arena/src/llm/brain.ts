@@ -44,7 +44,7 @@ export async function think(
     `{"say":"<one short line to chat, max 90 chars>","dx":<-1|0|1>,"dy":<-1|0|1>}`;
   const user =
     `Game state: level ${opts.state.level}, hp ${opts.state.hp}/${opts.state.maxHp}, ` +
-    `kills ${opts.state.kills}, gold ${opts.state.gold}, enemies nearby ${opts.state.enemies.length}. ` +
+    `kills ${opts.state.kills}, gold ${opts.state.gold}, enemies nearby ${(opts.state as any).enemies?.length ?? (opts.state as any).zombies?.length ?? 0}. ` +
     `Give your next move and a line for chat.`;
 
   let lastErr = '';
@@ -103,7 +103,7 @@ export async function replyTo(opts: {
     `it fits. No preamble, no quotes, no markdown. Just the line you say out loud.`;
   const user =
     `Game state: level ${opts.state.level}, hp ${opts.state.hp}/${opts.state.maxHp}, ` +
-    `kills ${opts.state.kills}, ${opts.state.enemies.length} enemies nearby.\n` +
+    `kills ${opts.state.kills}, ${(opts.state as any).enemies?.length ?? (opts.state as any).zombies?.length ?? 0} enemies nearby.\n` +
     (opts.recent.length ? `Recent chat: ${opts.recent.slice(-3).join(' | ')}\n` : '') +
     `${opts.viewer} says: "${opts.message}"\nYour reply:`;
 

@@ -14,8 +14,7 @@ function Loading() {
 }
 
 const BY_SLUG: Record<string, React.ComponentType<{ runId?: string }>> = {
-  'grid-survival': AiSurv, 'tower-defense': AiSurv, 'roguelike': AiSurv, 'survival': AiSurv,
-  'card-game': Arcade, 'platformer': Arcade,
+  'survivors': AiSurv,   // THE game — Kenney sprites, your LLM drives it
 };
 
 export default function GameCanvas({ slug, runId }: { slug?: string; runId?: string }) {
