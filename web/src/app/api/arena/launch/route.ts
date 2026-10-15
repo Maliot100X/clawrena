@@ -3,7 +3,7 @@ import { rateLimit, clientKey } from '@/lib/ratelimit';
 import { db } from '@/lib/db';
 
 const ARENA = process.env.ARENA_HTTP ?? 'http://localhost:4100';
-const FALLBACK_GAME = 'grid-survival';
+const FALLBACK_GAME = 'survivors-s2';
 
 export async function POST(req: Request) {
   const rl = await rateLimit(`launch:${clientKey(req)}`, { limit: 5, windowSec: 60 });

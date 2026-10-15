@@ -1,86 +1,60 @@
 'use client';
-// The live game board — renders the arena grid, the agent, and enemies,
-// updating every tick from the WebSocket. This is what "the agent playing"
-// actually looks like.
+// The live view of a running agent — HONEST state only.
+// The old grid board was a fixed 24x16 demo that every game rendered, which is
+// why it looked like a stale demo. This shows what the run actually reports:
+// level, hp, kills, wave/progress and time, plus the agent's recent lines.
 import type { CSSProperties } from 'react';
 
 export interface BoardState {
-  x?: number; y?: number; w?: number; h?: number;
-  enemies?: { x: number; y: number }[];
   level?: number; hp?: number; maxHp?: number;
   kills?: number; gold?: number; elapsedMs?: number; alive?: boolean;
+  wave?: number; xp?: number; needXp?: number;
+  gameSlug?: string; provider?: string;
 }
-
-const W = 24, H = 16;   // matches the arena engine grid
-const CELL = 26;
 
 export default function GameBoard({ state, agentName = 'agent' }:
   { state: BoardState | null; agentName?: string }) {
   const s = state ?? {};
-  const w = s.w ?? W, h = s.h ?? H;
-  const px = s.x ?? 12, py = s.y ?? 8;
-  const enemies = s.enemies ?? [];
-  const pct = Math.max(0, Math.min(1, (s.hp ?? 100) / (s.maxHp || 100)));
+  const hp = s.hp ?? 100, maxHp = s.maxHp || 100;
+  const pct = Math.max(0, Math.min(1, hp / maxHp));
+  const secs = Math.floor((s.elapsedMs ?? 0) / 1000);
 
-  const cell: CSSProperties = { position: 'absolute', width: CELL - 4, height: CELL - 4,
-    borderRadius: 5, transition: 'all .35s var(--ease-spring)' };
+  const stat: CSSProperties = { display: 'flex', flexDirection: 'column', gap: 2 };
+  const k = { color: 'var(--color-muted)', fontSize: 11, letterSpacing: '0.12em' } as CSSProperties;
+  const v = { fontFamily: 'var(--font-term)', fontSize: 22 } as CSSProperties;
 
   return (
-    <div style={{ padding: 14 }}>
-      {/* HUD */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-        marginBottom: 10, fontFamily: 'var(--font-term)', fontSize: 18 }}>
-        <span>lvl {s.level ?? 1} · {Math.floor((s.elapsedMs ?? 0) / 1000)}s</span>
-        <span style={{ color: 'var(--color-muted)', fontSize: 14 }}>
-          {s.kills ?? 0} kills · {s.gold ?? 0} gold
-        </span>
+    <div style={{ padding: 18 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 18 }}>
+        <div style={stat}><span style={k}>LEVEL</span><span style={v}>{s.level ?? 1}</span></div>
+        <div style={stat}><span style={k}>KILLS</span><span style={v}>{s.kills ?? 0}</span></div>
+        <div style={stat}><span style={k}>TIME</span><span style={v}>{secs}s</span></div>
+        <div style={stat}><span style={k}>STATUS</span>
+          <span style={{ ...v, color: s.alive === false ? 'var(--color-red)' : 'var(--color-sol-green)' }}>
+            {s.alive === false ? 'ENDED' : 'LIVE'}
+          </span></div>
       </div>
 
-      {/* board */}
-      <div style={{ position: 'relative', width: w * CELL, height: h * CELL,
-        margin: '0 auto', borderRadius: 14,
-        background: 'radial-gradient(30rem 20rem at 50% 0%, rgba(153,69,255,0.10), transparent 70%), #08080c',
-        border: '1px solid var(--color-line)', overflow: 'hidden',
-        backgroundImage:
-          'linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)',
-        backgroundSize: `${CELL}px ${CELL}px` }}>
-        {/* enemies */}
-        {enemies.map((e, i) => (
-          <div key={i} style={{ ...cell, left: e.x * CELL + 2, top: e.y * CELL + 2,
-            background: 'var(--color-red)', opacity: 0.85,
-            boxShadow: '0 0 12px -4px var(--color-red)' }} />
-        ))}
-        {/* the agent */}
-        <div style={{ ...cell, left: px * CELL + 2, top: py * CELL + 2,
-          background: 'linear-gradient(140deg,var(--color-sol-purple),var(--color-sol-green))',
-          boxShadow: '0 0 20px -4px var(--color-sol-green)' }} />
-        {/* death overlay */}
-        {s.alive === false && (
-          <div style={{ position: 'absolute', inset: 0, display: 'grid', placeItems: 'center',
-            background: 'rgba(5,5,7,0.72)', backdropFilter: 'blur(3px)' }}>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontFamily: 'var(--font-arcade)', fontSize: 14, color: 'var(--color-red)' }}>
-                RUN ENDED
-              </div>
-              <div style={{ color: 'var(--color-muted)', fontSize: 12, marginTop: 8 }}>
-                {agentName} · level {s.level} · {s.kills} kills
-              </div>
-            </div>
-          </div>
-        )}
+      <div style={{ marginTop: 18 }}>
+        <div style={{ ...k, marginBottom: 6 }}>HEALTH</div>
+        <div style={{ height: 12, borderRadius: 6, background: '#1a1a24', overflow: 'hidden',
+          border: '1px solid var(--color-line)' }}>
+          <div style={{ width: `${pct * 100}%`, height: '100%',
+            background: 'linear-gradient(90deg,#ff4d6d,#39ff88)' }} />
+        </div>
+        <div style={{ ...k, marginTop: 4 }}>{Math.max(0, Math.round(hp))} / {maxHp}</div>
       </div>
 
-      {/* hp bar */}
-      <div style={{ maxWidth: w * CELL, margin: '12px auto 0' }}>
-        <div style={{ height: 8, borderRadius: 4, background: '#22222c', overflow: 'hidden' }}>
-          <div style={{ width: `${pct * 100}%`, height: '100%', transition: 'width .35s var(--ease-spring)',
-            background: pct < 0.4 ? 'var(--color-red)' : 'var(--color-sol-green)' }} />
+      {typeof s.wave === 'number' && (
+        <div style={{ marginTop: 16 }}>
+          <div style={{ ...k, marginBottom: 6 }}>WAVE {s.wave}</div>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6, fontSize: 12,
-          color: 'var(--color-muted)' }}>
-          <span>HP {s.hp ?? 100}/{s.maxHp ?? 100}</span>
-          <span>{s.enemies?.length ?? 0} enemies on the board</span>
-        </div>
+      )}
+
+      <div style={{ marginTop: 22, color: 'var(--color-muted)', fontSize: 13 }}>
+        {s.alive === false
+          ? `${agentName} is no longer playing this run.`
+          : `${agentName} is playing live — state streams every tick.`}
       </div>
     </div>
   );

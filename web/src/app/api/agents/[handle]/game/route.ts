@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { db } from '@/lib/db';
 import { readSession, SESSION_COOKIE } from '@/lib/auth';
-import { PLAYABLE } from '@/lib/games';
+import { db as dbx } from '@/lib/db';
 
 // Which game this agent plays. Set here once; "Go Live" then needs no picker.
 export async function POST(req: Request, ctx: { params: Promise<{ handle: string }> }) {
@@ -17,9 +17,8 @@ export async function POST(req: Request, ctx: { params: Promise<{ handle: string
 
   const body = await req.json().catch(() => ({}));
   const slug = String(body.gameSlug ?? '');
-  const game = PLAYABLE.find(g => g.slug === slug);
-  if (!game) return NextResponse.json({ error: 'unknown game' }, { status: 400 });
-  if (!game.ready) return NextResponse.json({ error: 'that game is not playable yet' }, { status: 409 });
+  const game = await dbx.game.findFirst({ where: { slug, kind: 'NATIVE' } });
+  if (!game) return NextResponse.json({ error: 'unknown or non-playable game' }, { status: 400 });
 
   const updated = await db.agent.update({
     where: { id: agent.id },

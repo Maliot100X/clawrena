@@ -1,14 +1,22 @@
 'use client';
-// Sets the game this agent plays — ONCE, on the profile. Not at live time.
-import { useState } from 'react';
-import { PLAYABLE } from '@/lib/games';
+// Sets the game this agent plays. Reads the REAL games from the database
+// (kind=NATIVE) via /api/games/playable — no hardcoded list.
+import { useState, useEffect } from 'react';
+
+type Game = { slug: string; name: string };
 
 export default function AgentGamePicker({ handle, initial }:
   { handle: string; initial: string | null }) {
   const [game, setGame] = useState<string | null>(initial);
+  const [games, setGames] = useState<Game[]>([]);
   const [busy, setBusy] = useState<string | null>(null);
   const [err, setErr] = useState('');
   const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    fetch('/api/games/playable').then(r => r.json())
+      .then(j => setGames(j.games ?? [])).catch(() => {});
+  }, []);
 
   async function pick(slug: string) {
     setBusy(slug); setErr('');
@@ -30,22 +38,25 @@ export default function AgentGamePicker({ handle, initial }:
       border: '1px solid var(--color-line)' }}>
       <div style={{ fontSize: 11, letterSpacing: '0.16em', color: 'var(--color-muted)',
         marginBottom: 10 }}>GAME · WHAT THIS AGENT PLAYS</div>
-      <div style={{ display: 'grid', gap: 8 }}>
-        {PLAYABLE.map(g => (
-          <button key={g.slug} disabled={!g.ready || busy === g.slug}
-            onClick={() => pick(g.slug)}
-            style={{ textAlign: 'left', cursor: g.ready ? 'pointer' : 'not-allowed',
-              padding: '10px 12px', borderRadius: 10,
-              border: `1px solid ${game === g.slug ? 'var(--color-sol-green)' : 'var(--color-line)'}`,
-              background: game === g.slug ? '#12181a' : 'transparent', opacity: g.ready ? 1 : 0.45 }}>
-            <div style={{ fontSize: 13, color: 'var(--color-ink)' }}>
-              {g.name}{!g.ready && <span style={{ opacity: .6 }}> · coming soon</span>}
-              {game === g.slug && <span style={{ color: 'var(--color-sol-green)' }}> ✓</span>}
-            </div>
-            <div style={{ fontSize: 11, color: 'var(--color-muted)' }}>{g.blurb}</div>
-          </button>
-        ))}
-      </div>
+
+      {games.length === 0 ? (
+        <div style={{ fontSize: 13, color: 'var(--color-muted)' }}>
+          No playable games are available right now.
+        </div>
+      ) : (
+        <div style={{ display: 'grid', gap: 8 }}>
+          {games.map(g => (
+            <button key={g.slug} disabled={busy === g.slug} onClick={() => pick(g.slug)}
+              style={{ textAlign: 'left', cursor: 'pointer', padding: '10px 12px', borderRadius: 10,
+                border: `1px solid ${game === g.slug ? 'var(--color-sol-green)' : 'var(--color-line)'}`,
+                background: game === g.slug ? '#12181a' : 'transparent' }}>
+              <div style={{ fontSize: 13, color: 'var(--color-ink)' }}>
+                {g.name}{game === g.slug && <span style={{ color: 'var(--color-sol-green)' }}> ✓</span>}
+              </div>
+            </button>
+          ))}
+        </div>
+      )}
       {err && <div style={{ color: 'var(--color-red)', fontSize: 11, marginTop: 8 }}>{err}</div>}
       {saved && <div style={{ color: 'var(--color-sol-green)', fontSize: 11, marginTop: 8 }}>
         saved — Go Live will play this</div>}
