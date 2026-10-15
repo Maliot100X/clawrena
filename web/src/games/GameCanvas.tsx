@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 
 const AiSurv  = dynamic(() => import('./AiSurvivors'), { ssr: false, loading: () => <Loading /> });
 const Arcade  = dynamic(() => import('./ArcadeGame'),   { ssr: false, loading: () => <Loading /> });
+const PixiG   = dynamic(() => import('./PixiSurvivors'), { ssr: false, loading: () => <Loading /> });
 
 function Loading() {
   return (
@@ -14,7 +15,8 @@ function Loading() {
 }
 
 const BY_SLUG: Record<string, React.ComponentType<{ runId?: string }>> = {
-  'survivors': AiSurv,   // THE game — Kenney sprites, your LLM drives it
+  'survivors-pixi': PixiG,   // PixiJS v8, real sprites, your LLM drives it
+  'survivors': PixiG,
 };
 
 export default function GameCanvas({ slug, runId }: { slug?: string; runId?: string }) {
