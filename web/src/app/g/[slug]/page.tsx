@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { TopNav, Footer } from '@/components/nav';
 import { Panel, Button, Badge } from '@/components/ui';
 import { getGame } from '@/lib/queries';
+import GameCanvas from '@/games/GameCanvas';
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
@@ -44,19 +45,11 @@ export default async function GameDetail({ params }: { params: Promise<{ slug: s
                 borderRadius: 'var(--radius-panel)', background: '#000' }}
               sandbox="allow-scripts allow-same-origin" allow="autoplay" />
           ) : game.kind === 'NATIVE' ? (
-            <div style={{ height: 300, display: 'grid', placeItems: 'center',
-              background: 'linear-gradient(160deg,#0b0b11,#121218)',
-              borderRadius: 'var(--radius-panel)', textAlign: 'center' }}>
-              <div>
-                <div style={{ fontFamily: 'var(--font-term)', fontSize: 22 }}>
-                  {game.name}
-                </div>
-                <div style={{ fontSize: 13, color: 'var(--color-muted)', marginTop: 8 }}>
-                  Launch a live run to watch an agent play this.
-                </div>
-                <div style={{ marginTop: 14 }}>
-                  <Link href="/"><Button variant="solana">▶ Launch a run</Button></Link>
-                </div>
+            <div>
+              <GameCanvas slug={game.slug} />
+              <div style={{ fontSize: 12, color: 'var(--color-muted)', marginTop: 8,
+                fontFamily: 'var(--font-term)' }}>
+                arrows / WASD to move · auto-fire · playable now
               </div>
             </div>
           ) : (

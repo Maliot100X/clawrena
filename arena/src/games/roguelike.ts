@@ -82,11 +82,25 @@ export class Roguelike implements GameEngine<RogueState> {
     s.elapsedMs += 250;
 
     // --- agent moves one tile -------------------------------------------
-    const nx = s.x + Math.sign(bias.dx);
-    const ny = s.y + Math.sign(bias.dy);
-    if (nx >= 0 && ny >= 0 && nx < W && ny < H && s.floor[ny][nx] !== 1) {
-      s.x = nx; s.y = ny;
+    // A passive agent (dx=dy=0) must still make progress toward the stairs, or
+    // the run never descends and its markets never settle. When the agent gives
+    // no direction, walk toward the stairs in the far corner.
+    let mx = Math.sign(bias.dx);
+    let my = Math.sign(bias.dy);
+    if (mx === 0 && my === 0) {
+      mx = Math.sign((W - 2) - s.x);
+      my = Math.sign((H - 2) - s.y);
     }
+    // if the diagonal is blocked, try each axis alone so we slide along walls
+    const canStep = (ax: number, ay: number) => {
+      const tx = s.x + ax, ty = s.y + ay;
+      return ax !== 0 || ay !== 0
+        ? tx >= 0 && ty >= 0 && tx < W && ty < H && s.floor[ty][tx] !== 1
+        : false;
+    };
+    if (canStep(mx, my)) { s.x += mx; s.y += my; }
+    else if (canStep(mx, 0)) { s.x += mx; }
+    else if (canStep(0, my)) { s.y += my; }
 
     // --- pick up gold -----------------------------------------------------
     if (s.floor[s.y][s.x] === 2) {

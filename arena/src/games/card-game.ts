@@ -69,17 +69,23 @@ export class CardGame implements GameEngine<CardState> {
     if (!s.alive) return s;
     s.tick += 1; s.elapsedMs += 250;
 
-    // --- play a card if the agent points at one and can pay ------------------
-    if (bias.dx && s.hand.length) {
-      const idx = Math.min(s.hand.length - 1, Math.abs(Math.sign(bias.dx) + (bias.dx > 0 ? 0 : s.hand.length - 1)));
-      const c = this.card(s.hand[idx]);
-      if (c && c.cost <= s.energy) {
-        s.energy -= c.cost;
-        s.enemyHp -= c.dmg;
-        s.block += c.block;
-        s.hand.splice(idx, 1);
-        s.discard.push(c.id);
-        s.log.push(`played ${c.name}${c.dmg ? ` (-${c.dmg} enemy)` : ` (+${c.block} block)`}`);
+    // --- play a card. A passive agent (dx=0) must still take a turn, or the
+    // turn never ends and the duel can never resolve. bias.dx picks the index
+    // when provided; otherwise we play the first affordable card.
+    if (s.hand.length) {
+      const idx = bias.dx
+        ? Math.min(s.hand.length - 1, Math.abs(Math.sign(bias.dx) + (bias.dx > 0 ? 0 : s.hand.length - 1)))
+        : s.hand.findIndex(id => this.card(id).cost <= s.energy);
+      if (idx >= 0) {
+        const c = this.card(s.hand[idx]);
+        if (c && c.cost <= s.energy) {
+          s.energy -= c.cost;
+          s.enemyHp -= c.dmg;
+          s.block += c.block;
+          s.hand.splice(idx, 1);
+          s.discard.push(c.id);
+          s.log.push(`played ${c.name}${c.dmg ? ` (-${c.dmg} enemy)` : ` (+${c.block} block)`}`);
+        }
       }
     }
 

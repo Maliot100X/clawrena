@@ -293,6 +293,9 @@ importers:
       next:
         specifier: 15.5.27
         version: 15.5.27(@babel/core@7.29.7(supports-color@8.1.1))(@playwright/test@1.64.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      phaser:
+        specifier: ^4.2.1
+        version: 4.2.1
       react:
         specifier: 19.1.0
         version: 19.1.0
@@ -4133,6 +4136,9 @@ packages:
 
   pgpass@1.0.5:
     resolution: {integrity: sha512-FdW9r/jQZhSeohs1Z3sI1yxFQNFvMcnmfuj4WBMUTxOrAyLMaTcE1aAMBiTlbMNaXvBCQuVi0R7hd8udDSP7ug==}
+
+  phaser@4.2.1:
+    resolution: {integrity: sha512-WUNwCPJpdjvZiuT6SgCfYVW8Qw/3j0jJ4ws7P2QkhFLFu74sbGuyHJcbFueGkY/AYO4Pi47bNQXn1OCJeLX//w==}
 
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
@@ -9154,6 +9160,10 @@ snapshots:
     dependencies:
       split2: 4.2.0
     optional: true
+
+  phaser@4.2.1:
+    dependencies:
+      eventemitter3: 5.0.4
 
   picocolors@1.1.1: {}
 

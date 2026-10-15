@@ -45,10 +45,15 @@ export class Platformer implements GameEngine<PlatformState> {
     if (!s.alive) return s;
     s.tick += 1; s.elapsedMs += 250;
 
-    // run
-    if (bias.dx) s.x = Math.max(0, s.x + Math.sign(bias.dx));
-    // jump only when grounded
-    if (bias.dy < 0 && s.grounded) { s.vy = -JUMP_V; s.grounded = false; }
+    // run. A passive agent (dx=0) must still make forward progress, or the run
+    // can never reach the goal and the markets never settle. Auto-run + auto-
+    // jump when the agent declines to act; bias still overrides when it does.
+    const dir = Math.sign(bias.dx) || 1;
+    s.x = Math.max(0, s.x + dir);
+    // jump when the tile ahead is a gap. Look ahead from the new x so the jump
+    // fires before we step off the ledge, not after.
+    const aheadSupported = s.platforms.some(p => s.x + 1 >= p.x && s.x + 1 < p.x + p.w);
+    if (s.grounded && (bias.dy < 0 || !aheadSupported)) { s.vy = -JUMP_V; s.grounded = false; }
 
     // integrate
     s.vy += GRAVITY * DT;
