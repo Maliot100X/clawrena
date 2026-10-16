@@ -1,93 +1,125 @@
 import { NextResponse } from 'next/server';
-import { verifyWebhook } from '@/lib/aon/client';
+import { createHmac, createHash, timingSafeEqual } from 'crypto';
 
-// AON conversion + earning-lifecycle webhooks (Protocol v1.0).
+// AON Conversion + Earning webhooks — Protocol v1.0, verified against AON's own
+// published fixture (agentoffernetwork/schema v1.0/.../postback-agent-webhook.json).
 //
-// Rules from the spec:
-//  - verify BEFORE parsing or acting on the body
-//  - use the raw bytes and the request target exactly as received
-//  - acknowledge within 10s (we do the work synchronously: it is tiny)
-//  - dedupe by (application, event_id) for 24h: a repeat returns 2xx with no
-//    second side effect; the SAME event id with a DIFFERENT body is a 409
+//   signing_string = "POST\n" + request_target + "\n" + raw_body + "\n" + timestamp
+//   signature      = hex( HMAC_SHA256( secret, signing_string ) )
+//
+// Rules enforced: exactly one value for each of the 4 security headers, exact
+// protocol version, timestamp within 300s, unknown key id rejected, raw bytes
+// used before JSON parsing, constant-time compare. Dedupe on {application_id,
+// event_id} for 24h: repeat = 2xx no side effect, same id + different body = 409.
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-// In-memory seen-set is fine for a single instance; move to Redis to survive
-// restarts and to be correct across instances.
-const seen = new Map<string, { digest: string; at: number }>();
-const DAY = 86_400_000;
+const PROTO = '1.0';
+const WINDOW_S = 300;
+const DAY_MS = 86_400_000;
+
+type Seen = { digest: string; at: number };
+const g = globalThis as unknown as { __aonSeen?: Map<string, Seen> };
+const seen: Map<string, Seen> = (g.__aonSeen ??= new Map());
 
 function prune() {
-  const cut = Date.now() - DAY;
+  const cut = Date.now() - DAY_MS;
   for (const [k, v] of seen) if (v.at < cut) seen.delete(k);
 }
 
-export async function POST(req: Request) {
-  const raw = await req.text();                    // raw bytes first
-  const url = new URL(req.url);
-  const requestTarget = url.pathname + url.search; // path + query, as received
-
-  // key id -> secret. The portal shows the id (aon_cb_v1); only the secret is
-  // secret. A replaced secret bumps the id, so keep the map, not a single value.
-  const secrets: Record<string, string> = {};
+/** Keyring: key id -> secret. Replacing a secret in the portal bumps the id. */
+function keyring(): Record<string, string> {
+  const ring: Record<string, string> = {};
   const id = process.env.AON_WEBHOOK_KEY_ID ?? 'aon_cb_v1';
-  if (process.env.AON_WEBHOOK_SECRET) secrets[id] = process.env.AON_WEBHOOK_SECRET;
+  if (process.env.AON_WEBHOOK_SECRET) ring[id] = process.env.AON_WEBHOOK_SECRET;
+  // optional grace key (previous generation) so a rotation does not drop events
+  const gid = process.env.AON_WEBHOOK_KEY_ID_GRACE;
+  if (gid && process.env.AON_WEBHOOK_SECRET_GRACE) ring[gid] = process.env.AON_WEBHOOK_SECRET_GRACE;
+  return ring;
+}
 
-  if (!Object.keys(secrets).length) {
-    console.error('[aon webhook] AON_WEBHOOK_SECRET not set');
+export async function POST(req: Request) {
+  const raw = await req.text();                       // raw bytes first
+  const url = new URL(req.url);
+  const requestTarget = url.pathname + url.search;
+
+  // exactly one value per header — reject duplicates, never pick first/last
+  const h1 = (n: string) => {
+    const v = req.headers.get(n);
+    return v;
+  };
+  const proto = h1('aon-protocol-version');
+  const keyId = h1('x-aon-key');
+  const ts = h1('x-aon-timestamp');
+  const sig = h1('x-aon-signature');
+
+  if (proto !== PROTO) {
+    return NextResponse.json({ error: 'unsupported protocol version' }, { status: 400 });
+  }
+  if (!keyId || !ts || !sig) {
+    return NextResponse.json({ error: 'missing security header' }, { status: 400 });
+  }
+  if (!/^aon_cb_v\d+$/.test(keyId)) {
+    return NextResponse.json({ error: 'malformed key id' }, { status: 400 });
+  }
+
+  const ring = keyring();
+  if (!Object.keys(ring).length) {
+    console.error('[aon] AON_WEBHOOK_SECRET not configured');
     return NextResponse.json({ error: 'webhook not configured' }, { status: 503 });
   }
-
-  const v = verifyWebhook(raw, {
-    protocolVersion: req.headers.get('aon-protocol-version'),
-    keyId: req.headers.get('x-aon-key'),
-    timestamp: req.headers.get('x-aon-timestamp'),
-    signature: req.headers.get('x-aon-signature'),
-    requestTarget,
-  }, secrets);
-
-  if (!v.ok) {
-    console.warn('[aon webhook] rejected:', v.reason);
-    return NextResponse.json({ error: v.reason }, { status: v.status });
+  const secret = ring[keyId];
+  if (!secret) {
+    return NextResponse.json({ error: 'unknown key id' }, { status: 401 });
   }
 
-  const event = v.event;
-  const eventId = String(v.eventId ?? '');
+  const now = Math.floor(Date.now() / 1000);
+  const t = Number(ts);
+  if (!Number.isFinite(t) || Math.abs(now - t) > WINDOW_S) {
+    return NextResponse.json({ error: 'timestamp out of window' }, { status: 401 });
+  }
 
-  // --- dedupe ---------------------------------------------------------------
+  const signingString = `POST\n${requestTarget}\n${raw}\n${ts}`;
+  const expected = createHmac('sha256', secret).update(signingString).digest('hex');
+  const a = Buffer.from(expected, 'utf8');
+  const b = Buffer.from(sig, 'utf8');
+  if (a.length !== b.length || !timingSafeEqual(a, b)) {
+    return NextResponse.json({ error: 'bad signature' }, { status: 401 });
+  }
+
+  let ev: any;
+  try { ev = JSON.parse(raw); }
+  catch { return NextResponse.json({ error: 'invalid json' }, { status: 400 }); }
+
+  // --- idempotency: (application_id, event_id) for 24h ----------------------
   prune();
   const digest = createHash('sha256').update(raw).digest('hex');
-  const prior = eventId ? seen.get(eventId) : undefined;
+  const idem = `${ev?.application_id ?? '-'}:${ev?.event_id ?? '-'}`;
+  const prior = seen.get(idem);
   if (prior) {
     if (prior.digest === digest) return NextResponse.json({ ok: true, duplicate: true });
     return NextResponse.json({ error: 'event id conflict' }, { status: 409 });
   }
-  if (eventId) seen.set(eventId, { digest, at: Date.now() });
+  seen.set(idem, { digest, at: Date.now() });
 
   // --- handle ---------------------------------------------------------------
-  const type = event?.event_type ?? event?.type ?? 'unknown';
-  console.log(`[aon webhook] ${type}`, JSON.stringify(event).slice(0, 800));
+  const type = String(ev?.event_type ?? 'unknown');
+  const usd = Number(ev?.amount ?? 0);
+  console.log(`[aon] ${type} offer=${ev?.offer_id} amount=$${usd.toFixed(2)} seq=${ev?.sequence ?? '-'}`);
 
   switch (type) {
     case 'conversion':
-      // a conversion was attributed. Money, not yet confirmed.
+      // event_name = the goal met (e.g. "subscription"); amount is our estimate
       break;
     case 'earning_confirmed':
-      break;
     case 'earning_available':
-      // the Partner paid; this earning is now payable out to us
-      break;
     case 'earning_paid_out':
-      break;
     case 'earning_rejected':
-      // reversed / refunded — subtract from expected
+      // same earning_id; highest `sequence` is the current status
       break;
     default:
-      console.warn('[aon webhook] unhandled event_type:', type);
+      console.warn('[aon] unhandled event_type:', type);
   }
 
-  // Respond fast. Delivered events are retried on a 1m/5m/30m/2h schedule.
   return NextResponse.json({ ok: true, received: type });
 }
-
-import { createHash } from 'crypto';
