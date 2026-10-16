@@ -1,7 +1,7 @@
 'use client';
 // Deals — the earning surface. A user types intent, we show live AON offers,
 // they click through a tracked aon.link. That click is what attribution needs.
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 type Offer = {
   offer_id: string; offer_instance_id: string;
@@ -20,13 +20,19 @@ export default function Deals() {
   const [err, setErr] = useState('');
   const [test, setTest] = useState(false);
 
-  async function search(e?: React.FormEvent) {
-    e?.preventDefault();
-    if (q.trim().length < 2) return;
+  // load something on first paint so the page is never empty
+  useEffect(() => { void search('popular products'); }, []);
+
+
+  async function search(arg?: string | React.FormEvent) {
+    const term = typeof arg === 'string' ? arg : q;
+    if (arg && typeof arg !== 'string') arg.preventDefault();
+    if (term.trim().length < 2) return;
+    if (typeof arg === 'string') setQ(term);
     setBusy(true); setErr(''); setOffers([]);
     try {
       const r = await fetch('/api/aon/search', { method: 'POST',
-        headers: { 'content-type': 'application/json' }, body: JSON.stringify({ intent: q }) });
+        headers: { 'content-type': 'application/json' }, body: JSON.stringify({ intent: term }) });
       const j = await r.json();
       if (!r.ok) { setErr(j.error ?? 'search failed'); setBusy(false); return; }
       setOffers(j.offers ?? []); setTest(!!j.is_test);
@@ -54,6 +60,15 @@ export default function Deals() {
         </button>
       </form>
 
+      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 12 }}>
+        {['laptop','wireless headphones','running shoes','smartphone','gaming mouse',
+          'coffee maker','backpack','gaming chair','drone'].map(c => (
+          <button key={c} onClick={() => search(c)} disabled={busy}
+            style={{ padding: '6px 12px', borderRadius: 999, fontSize: 12, cursor: 'pointer',
+              background: 'transparent', color: 'var(--color-muted)',
+              border: '1px solid var(--color-line)' }}>{c}</button>
+        ))}
+      </div>
       {test && <div style={{ marginTop: 10, fontSize: 12, color: 'var(--color-muted)' }}>
         sandbox data (non-billable)</div>}
       {err && <div style={{ marginTop: 12, color: 'var(--color-red)', fontSize: 13 }}>{err}</div>}

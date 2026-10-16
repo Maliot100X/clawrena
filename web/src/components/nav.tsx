@@ -29,6 +29,7 @@ export async function TopNav() {
         <Link href="/" style={{ color: 'var(--color-muted)' }}>Live</Link>
         <Link href="/predict" style={{ color: 'var(--color-muted)' }}>Predict</Link>
         <Link href="/g" style={{ color: 'var(--color-muted)' }}>Games</Link>
+        <Link href="/deals" style={{ color: 'var(--color-muted)' }}>Deals</Link>
         <Link href="/build" style={{ color: 'var(--color-muted)' }}>Build</Link>
         <Link href="/leaderboard" style={{ color: 'var(--color-muted)' }}>Board</Link>
         {me && <Link href="/dashboard" style={{ color: 'var(--color-sol-green)' }}>Dashboard</Link>}

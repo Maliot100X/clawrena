@@ -18,6 +18,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body style={{ margin: 0, background: '#0a0a0f', color: '#f1ebe0',
         fontFamily: 'system-ui, sans-serif' }}>
         <WalletProviders>{children}</WalletProviders>
+        {/* AON Content Assistant — offers + attribution on every page */}
+        <script
+          src="https://plugin.aon.pro/aon.js"
+          data-placement-id="plc_blNy2rYZcE199B8l"
+          data-lang="en"
+          referrerPolicy="origin"
+          async
+        />
       </body>
     </html>
   );
