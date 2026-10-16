@@ -1,0 +1,48 @@
+{
+  "id": "colossus_gate",
+  "name": "The Colossus Gate",
+  "arena": {
+    "width": 1280,
+    "height": 720,
+    "wrap": false
+  },
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "camera": "locked",
+  "background": "assets/maps/colossus_gate/stage.png",
+  "playerSpawn": {
+    "x": 640,
+    "y": 560
+  },
+  "bossSpawn": {
+    "x": 640,
+    "y": 220,
+    "type": "the_colossus"
+  },
+  "props": [
+    {
+      "id": "colossus",
+      "kind": "boss",
+      "sprite": "assets/sprites/the_colossus/walk/sheet-transparent.png",
+      "x": 800,
+      "y": 380,
+      "w": 192,
+      "h": 192,
+      "rotation": 0
+    }
+  ],
+  "music": "boss_loop",
+  "mapSize": {
+    "width": 1280,
+    "height": 720
+  },
+  "runtime": {
+    "background": {
+      "image": "assets/maps/colossus_gate/stage.png"
+    }
+  },
+  "colliders": [],
+  "zones": {}
+}

@@ -1,0 +1,122 @@
+{
+  "maxAlive": 300,
+  "spawnRing": {
+    "innerMargin": 40,
+    "maxAlive": 300
+  },
+  "difficulty": {
+    "hpPerMinute": 0.28,
+    "speedPerMinute": 0.045,
+    "countPerMinute": 0.1,
+    "maxHpMult": 6.0,
+    "maxSpeedMult": 1.8
+  },
+  "waves": [
+    {
+      "startTime": 0,
+      "enemyType": "swarm_bat",
+      "minCount": 14,
+      "interval": 0.85,
+      "weight": 1.0
+    },
+    {
+      "startTime": 20,
+      "enemyType": "bone_walker",
+      "minCount": 12,
+      "interval": 0.8,
+      "weight": 1.2
+    },
+    {
+      "startTime": 45,
+      "enemyType": "bloater",
+      "minCount": 10,
+      "interval": 0.75,
+      "weight": 1.0
+    },
+    {
+      "startTime": 75,
+      "enemyType": "spitter",
+      "minCount": 10,
+      "interval": 0.7,
+      "weight": 1.0
+    },
+    {
+      "startTime": 105,
+      "enemyType": "stone_husk",
+      "minCount": 10,
+      "interval": 0.68,
+      "weight": 1.1
+    },
+    {
+      "startTime": 150,
+      "enemyType": "reaver",
+      "minCount": 10,
+      "interval": 0.6,
+      "weight": 1.2
+    }
+  ],
+  "modifiers": [
+    {
+      "id": "juggernaut",
+      "fromTime": 120,
+      "chance": 0.06,
+      "hpMult": 2.0,
+      "tint": "#c0b09a"
+    },
+    {
+      "id": "swift",
+      "fromTime": 150,
+      "chance": 0.06,
+      "speedMult": 1.8,
+      "tint": "#9ad0ff"
+    },
+    {
+      "id": "burning",
+      "fromTime": 200,
+      "chance": 0.05,
+      "tint": "#ff9a5a"
+    },
+    {
+      "id": "shielded",
+      "fromTime": 240,
+      "chance": 0.05,
+      "tint": "#a8d8d0"
+    }
+  ],
+  "mapEvents": [
+    {
+      "at": 110,
+      "kind": "encircling_swarm",
+      "type": "swarm_bat",
+      "count": 46
+    },
+    {
+      "at": 175,
+      "kind": "encircling_swarm",
+      "type": "bone_walker",
+      "count": 30
+    },
+    {
+      "at": 260,
+      "kind": "encircling_swarm",
+      "type": "reaver",
+      "count": 14
+    },
+    {
+      "at": 300,
+      "kind": "boss",
+      "type": "the_colossus"
+    }
+  ],
+  "dropChance": {
+    "base": 0.14,
+    "perLuck": 1.0,
+    "magnet": 0.02,
+    "nuke": 0.012,
+    "meat": 0.03,
+    "chest": 0.014
+  },
+  "goldPerKill": 2,
+  "goldPerLevel": 25,
+  "goldPerBoss": 1200
+}

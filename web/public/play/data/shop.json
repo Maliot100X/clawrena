@@ -1,0 +1,399 @@
+{
+  "currency": "gold",
+  "rarityOrder": [
+    "common",
+    "uncommon",
+    "refined",
+    "unique",
+    "elite",
+    "epic",
+    "legendary"
+  ],
+  "conversion": {
+    "goldPerPoint": 0.1,
+    "pointsPerGold": 100,
+    "goldPerSol": 100000,
+    "solPerGold": 0.1
+  },
+  "characters": [
+    {
+      "id": "survivor",
+      "name": "The Survivor",
+      "rarity": "common",
+      "price": 0,
+      "sprite": "assets/sprites/player/idle/sheet-transparent.png",
+      "desc": "Balanced. Walked out of the arena once already.",
+      "perk": "No penalty \u2014 baseline stats.",
+      "mods": {}
+    },
+    {
+      "id": "butcher",
+      "name": "The Butcher",
+      "rarity": "uncommon",
+      "price": 400,
+      "sprite": "assets/sprites/player/attack/sheet-transparent.png",
+      "desc": "Wades in. Hits hard, moves slow.",
+      "perk": "+20% damage \u00b7 +15 max HP \u00b7 -8% speed",
+      "mods": {
+        "damageMult": 0.2,
+        "maxHpAdd": 15,
+        "speedMult": -0.08
+      }
+    },
+    {
+      "id": "hexpeng",
+      "name": "Hexpeng",
+      "rarity": "uncommon",
+      "price": 550,
+      "sprite": "assets/sprites/player/idle/sheet-transparent.png",
+      "desc": "Learns fast. Frail but levels outrun the swarm.",
+      "perk": "+25% XP \u00b7 -10 max HP",
+      "mods": {
+        "xpMult": 0.25,
+        "maxHpAdd": -10
+      }
+    },
+    {
+      "id": "gambler",
+      "name": "The Gambler",
+      "rarity": "refined",
+      "price": 900,
+      "sprite": "assets/sprites/player/walk/sheet-transparent.png",
+      "desc": "Everything is a coin flip. Loot loves them.",
+      "perk": "+35% luck \u00b7 +25% gold \u00b7 +12% crit",
+      "mods": {
+        "luckAdd": 0.35,
+        "greedMult": 0.25,
+        "critChanceAdd": 0.12
+      }
+    },
+    {
+      "id": "revenant",
+      "name": "The Revenant",
+      "rarity": "refined",
+      "price": 1200,
+      "sprite": "assets/sprites/player/hurt/sheet-transparent.png",
+      "desc": "Already died once. It did not take.",
+      "perk": "Revive once \u00b7 +3 armor \u00b7 thorns 10",
+      "mods": {
+        "revivesAdd": 1,
+        "armorAdd": 3,
+        "thornsAdd": 10
+      }
+    },
+    {
+      "id": "wraith",
+      "name": "Wraith of Ash",
+      "rarity": "unique",
+      "price": 1800,
+      "sprite": "assets/sprites/player/death/sheet-transparent.png",
+      "desc": "Moves between strikes. Nothing lands twice.",
+      "perk": "-30% dash cooldown \u00b7 +15% speed \u00b7 +8% dodge",
+      "mods": {
+        "dashCdMult": -0.3,
+        "speedMult": 0.15
+      }
+    },
+    {
+      "id": "bonecaller",
+      "name": "Bonecaller",
+      "rarity": "unique",
+      "price": 2100,
+      "sprite": "assets/sprites/player/attack/sheet-transparent.png",
+      "desc": "The arena answers when they call.",
+      "perk": "+40% area \u00b7 +2 pierce \u00b7 +20% projectile speed",
+      "mods": {
+        "areaMult": 0.4,
+        "pierceAdd": 2,
+        "projSpeedMult": 0.2
+      }
+    },
+    {
+      "id": "colossus_slayer",
+      "name": "Colossus Slayer",
+      "rarity": "elite",
+      "price": 3200,
+      "sprite": "assets/sprites/player/attack/sheet-transparent.png",
+      "desc": "Built to break the thing at the gate.",
+      "perk": "+35% dmg \u00b7 +25% crit dmg \u00b7 +1 pierce \u00b7 +15% area",
+      "mods": {
+        "damageMult": 0.35,
+        "critMultAdd": 0.25,
+        "pierceAdd": 1,
+        "areaMult": 0.15
+      }
+    },
+    {
+      "id": "soulwarden",
+      "name": "Soulwarden",
+      "rarity": "elite",
+      "price": 3600,
+      "sprite": "assets/sprites/player/idle/sheet-transparent.png",
+      "desc": "Feeds on what the arena leaves behind.",
+      "perk": "+120% magnet \u00b7 +40% XP \u00b7 leech regen",
+      "mods": {
+        "magnetMult": 1.2,
+        "xpMult": 0.4,
+        "regenAdd": 0.6
+      }
+    },
+    {
+      "id": "hellknight",
+      "name": "Hellknight",
+      "rarity": "epic",
+      "price": 6000,
+      "sprite": "assets/sprites/player/attack/sheet-transparent.png",
+      "desc": "Armour of cinders. The swarm breaks on it.",
+      "perk": "+8 armor \u00b7 thorns 25 \u00b7 +50 max HP \u00b7 +20% dmg",
+      "mods": {
+        "armorAdd": 8,
+        "thornsAdd": 25,
+        "maxHpAdd": 50,
+        "damageMult": 0.2
+      }
+    },
+    {
+      "id": "voidwalker",
+      "name": "Voidwalker",
+      "rarity": "epic",
+      "price": 7500,
+      "sprite": "assets/sprites/player/walk/sheet-transparent.png",
+      "desc": "Steps sideways out of the world, briefly.",
+      "perk": "+2 revives \u00b7 -40% dash cd \u00b7 +50% crit dmg \u00b7 +25% speed",
+      "mods": {
+        "revivesAdd": 2,
+        "dashCdMult": -0.4,
+        "critMultAdd": 0.5,
+        "speedMult": 0.25
+      }
+    },
+    {
+      "id": "arena_sovereign",
+      "name": "Arena Sovereign",
+      "rarity": "legendary",
+      "price": 15000,
+      "sprite": "assets/sprites/player/idle/sheet-transparent.png",
+      "desc": "The crowd chants a name. It is not yours yet.",
+      "perk": "ALL: +50% dmg \u00b7 +3 pierce \u00b7 +60 HP \u00b7 2 revives \u00b7 +60% XP",
+      "mods": {
+        "damageMult": 0.5,
+        "pierceAdd": 3,
+        "maxHpAdd": 60,
+        "revivesAdd": 2,
+        "xpMult": 0.6
+      }
+    },
+    {
+      "id": "the_first",
+      "name": "The First",
+      "rarity": "legendary",
+      "price": 25000,
+      "sprite": "assets/sprites/player/death/sheet-transparent.png",
+      "desc": "The one the arena was built around.",
+      "perk": "+100% gold \u00b7 +80% crit chance \u00b7 +100% crit dmg \u00b7 thorns 40",
+      "mods": {
+        "greedMult": 1.0,
+        "critChanceAdd": 0.8,
+        "critMultAdd": 1.0,
+        "thornsAdd": 40
+      }
+    }
+  ],
+  "weapons": [
+    {
+      "id": "w_bone_scythe",
+      "name": "Bone Scythe",
+      "rarity": "common",
+      "price": 0,
+      "weaponId": "bone_scythe",
+      "sprite": "assets/sprites/fx/ember_ring.png",
+      "desc": "Wide melee arc. Default armament."
+    },
+    {
+      "id": "w_soul_bolt",
+      "name": "Soul Bolt",
+      "rarity": "common",
+      "price": 300,
+      "weaponId": "soul_bolt",
+      "sprite": "assets/sprites/fx/soul_bolt.png",
+      "desc": "Fast homing bolt. Reliable opener."
+    },
+    {
+      "id": "w_ember_ring",
+      "name": "Ember Ring",
+      "rarity": "uncommon",
+      "price": 600,
+      "weaponId": "ember_ring",
+      "sprite": "assets/sprites/fx/ember_ring.png",
+      "desc": "Burning nova around you."
+    },
+    {
+      "id": "w_soul_orbit",
+      "name": "Soul Orbit",
+      "rarity": "uncommon",
+      "price": 800,
+      "weaponId": "soul_orbit",
+      "sprite": "assets/sprites/fx/impact.png",
+      "desc": "Spirits circle you, striking anything close."
+    },
+    {
+      "id": "w_hex_beam",
+      "name": "Hex Beam",
+      "rarity": "refined",
+      "price": 1400,
+      "weaponId": "hex_beam",
+      "sprite": "assets/sprites/fx/spitter_bolt.png",
+      "desc": "Piercing beam that hunts targets."
+    },
+    {
+      "id": "w_grave_mines",
+      "name": "Grave Mines",
+      "rarity": "refined",
+      "price": 1600,
+      "weaponId": "grave_mines",
+      "sprite": "assets/sprites/fx/impact.png",
+      "desc": "Drops delayed detonations behind you."
+    },
+    {
+      "id": "w_storm_lance",
+      "name": "Storm Lance",
+      "rarity": "unique",
+      "price": 2800,
+      "weaponId": "soul_bolt",
+      "sprite": "assets/sprites/fx/soul_bolt.png",
+      "desc": "Chained lightning lance. Evolves fast."
+    },
+    {
+      "id": "w_ashfall",
+      "name": "Ashfall",
+      "rarity": "elite",
+      "price": 4200,
+      "weaponId": "grave_mines",
+      "sprite": "assets/sprites/fx/explosion.png",
+      "desc": "Burning rain over the whole arena."
+    },
+    {
+      "id": "w_soul_reaver",
+      "name": "Soul Reaver",
+      "rarity": "epic",
+      "price": 6500,
+      "weaponId": "hex_beam",
+      "sprite": "assets/sprites/fx/ember_ring.png",
+      "desc": "Drains life on every hit."
+    },
+    {
+      "id": "w_worldbreaker",
+      "name": "Worldbreaker",
+      "rarity": "legendary",
+      "price": 18000,
+      "weaponId": "ember_ring",
+      "sprite": "assets/sprites/fx/explosion.png",
+      "desc": "The arena floor splits. Everything burns."
+    }
+  ],
+  "upgrades": [
+    {
+      "id": "start_dash_cd",
+      "name": "Windstep Sigil",
+      "rarity": "common",
+      "price": 300,
+      "desc": "Start with -20% dash cooldown",
+      "mods": {
+        "dashCdMult": -0.2
+      }
+    },
+    {
+      "id": "start_magnet",
+      "name": "Soul Lodestone",
+      "rarity": "common",
+      "price": 350,
+      "desc": "Start with +50% pickup radius",
+      "mods": {
+        "magnetMult": 0.5
+      }
+    },
+    {
+      "id": "start_hp",
+      "name": "Iron Vigor",
+      "rarity": "uncommon",
+      "price": 500,
+      "desc": "Start with +40 max HP",
+      "mods": {
+        "maxHpAdd": 40
+      }
+    },
+    {
+      "id": "start_gold",
+      "name": "Coin Charm",
+      "rarity": "uncommon",
+      "price": 650,
+      "desc": "Start with +25% gold find",
+      "mods": {
+        "greedMult": 0.25
+      }
+    },
+    {
+      "id": "start_crit",
+      "name": "Keen Edge",
+      "rarity": "refined",
+      "price": 1200,
+      "desc": "Start with +10% crit chance",
+      "mods": {
+        "critChanceAdd": 0.1
+      }
+    },
+    {
+      "id": "start_area",
+      "name": "Wide Reach",
+      "rarity": "refined",
+      "price": 1400,
+      "desc": "Start with +20% area",
+      "mods": {
+        "areaMult": 0.2
+      }
+    },
+    {
+      "id": "start_thorns",
+      "name": "Barbed Plate",
+      "rarity": "unique",
+      "price": 2400,
+      "desc": "Start with thorns 15",
+      "mods": {
+        "thornsAdd": 15
+      }
+    },
+    {
+      "id": "start_revive",
+      "name": "Second Wind Charm",
+      "rarity": "elite",
+      "price": 4500,
+      "desc": "Start with one revive",
+      "mods": {
+        "revivesAdd": 1
+      }
+    },
+    {
+      "id": "start_xp",
+      "name": "Scholar's Mark",
+      "rarity": "epic",
+      "price": 7000,
+      "desc": "Start with +40% XP",
+      "mods": {
+        "xpMult": 0.4
+      }
+    },
+    {
+      "id": "start_all",
+      "name": "Sovereign's Seal",
+      "rarity": "legendary",
+      "price": 20000,
+      "desc": "+25% dmg, +60 HP, +1 revive, +30% XP",
+      "mods": {
+        "damageMult": 0.25,
+        "maxHpAdd": 60,
+        "revivesAdd": 1,
+        "xpMult": 0.3
+      }
+    }
+  ]
+}

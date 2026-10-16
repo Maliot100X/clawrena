@@ -1,0 +1,56 @@
+[
+  {
+    "id": "xp_soul",
+    "kind": "xp",
+    "value": 1,
+    "magnet": true,
+    "sprite": "assets/sprites/pickups/xp_soul.png",
+    "radius": 10,
+    "color": "#4fd6ff"
+  },
+  {
+    "id": "gold_coin",
+    "kind": "gold",
+    "value": 1,
+    "magnet": true,
+    "sprite": "assets/sprites/pickups/gold_coin.png",
+    "radius": 10,
+    "color": "#ffd24a"
+  },
+  {
+    "id": "meat",
+    "kind": "heal",
+    "value": 25,
+    "magnet": false,
+    "sprite": "assets/sprites/pickups/meat.png",
+    "radius": 14,
+    "color": "#ff7a3d"
+  },
+  {
+    "id": "magnet",
+    "kind": "magnet",
+    "value": 0,
+    "magnet": false,
+    "sprite": "assets/sprites/pickups/magnet.png",
+    "radius": 14,
+    "color": "#b26bff"
+  },
+  {
+    "id": "nuke",
+    "kind": "nuke",
+    "value": 300,
+    "magnet": false,
+    "sprite": "assets/sprites/pickups/nuke.png",
+    "radius": 14,
+    "color": "#ff4d4d"
+  },
+  {
+    "id": "chest",
+    "kind": "chest",
+    "value": 0,
+    "magnet": false,
+    "sprite": "assets/sprites/pickups/chest.png",
+    "radius": 18,
+    "color": "#d9c8a9"
+  }
+]

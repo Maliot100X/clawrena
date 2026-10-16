@@ -1,0 +1,75 @@
+{
+  "master": 0.35,
+  "sfx": {
+    "shoot": {
+      "type": "square",
+      "freq": 420,
+      "dur": 0.07,
+      "slide": -180,
+      "gain": 0.18
+    },
+    "hit": {
+      "type": "square",
+      "freq": 180,
+      "dur": 0.05,
+      "slide": -60,
+      "gain": 0.16
+    },
+    "enemyDie": {
+      "type": "triangle",
+      "freq": 240,
+      "dur": 0.12,
+      "slide": -160,
+      "gain": 0.16
+    },
+    "pickup": {
+      "type": "sine",
+      "freq": 660,
+      "dur": 0.08,
+      "slide": 240,
+      "gain": 0.14
+    },
+    "levelUp": {
+      "type": "sine",
+      "freq": 520,
+      "dur": 0.35,
+      "slide": 400,
+      "gain": 0.2
+    },
+    "hurt": {
+      "type": "sawtooth",
+      "freq": 140,
+      "dur": 0.18,
+      "slide": -80,
+      "gain": 0.2
+    },
+    "explode": {
+      "type": "sawtooth",
+      "freq": 90,
+      "dur": 0.3,
+      "slide": -60,
+      "gain": 0.22
+    },
+    "bossSlam": {
+      "type": "sawtooth",
+      "freq": 70,
+      "dur": 0.45,
+      "slide": -40,
+      "gain": 0.28
+    },
+    "dash": {
+      "type": "sine",
+      "freq": 780,
+      "dur": 0.1,
+      "slide": -420,
+      "gain": 0.15
+    },
+    "uiClick": {
+      "type": "square",
+      "freq": 660,
+      "dur": 0.06,
+      "slide": 120,
+      "gain": 0.12
+    }
+  }
+}

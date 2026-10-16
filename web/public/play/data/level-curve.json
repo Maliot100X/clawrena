@@ -1,0 +1,4 @@
+{
+  "xpForLevel": { "formula": "ceil(10 * n^1.5)", "maxLevel": 60 },
+  "starting": { "level": 1, "weapon": "soul_bolt", "weaponLevel": 1 }
+}

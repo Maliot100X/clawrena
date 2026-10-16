@@ -1,0 +1,215 @@
+[
+  {
+    "id": "swarm_bat",
+    "name": "Swarm Bat",
+    "role": "flock",
+    "kind": "melee",
+    "frameW": 64,
+    "frameH": 64,
+    "fps": 12,
+    "stats": {
+      "hp": 8,
+      "speed": 96,
+      "damage": 4,
+      "xp": 1,
+      "radius": 14,
+      "knockbackResist": 0
+    },
+    "animations": {
+      "walk": {
+        "sprite": "assets/sprites/swarm_bat/walk/sheet-transparent.png"
+      }
+    },
+    "sprite": "assets/sprites/swarm_bat/walk/sheet-transparent.png"
+  },
+  {
+    "id": "bone_walker",
+    "name": "Bone Walker",
+    "role": "grunt",
+    "kind": "melee",
+    "frameW": 64,
+    "frameH": 64,
+    "fps": 8,
+    "stats": {
+      "hp": 20,
+      "speed": 62,
+      "damage": 8,
+      "xp": 2,
+      "radius": 18,
+      "knockbackResist": 0.1
+    },
+    "animations": {
+      "walk": {
+        "sprite": "assets/sprites/bone_walker/walk/sheet-transparent.png"
+      }
+    },
+    "sprite": "assets/sprites/bone_walker/walk/sheet-transparent.png"
+  },
+  {
+    "id": "stone_husk",
+    "name": "Stone Husk",
+    "role": "tank",
+    "kind": "melee",
+    "frameW": 80,
+    "frameH": 80,
+    "fps": 6,
+    "stats": {
+      "hp": 90,
+      "speed": 34,
+      "damage": 16,
+      "xp": 6,
+      "radius": 26,
+      "knockbackResist": 0.75
+    },
+    "animations": {
+      "walk": {
+        "sprite": "assets/sprites/stone_husk/walk/sheet-transparent.png"
+      }
+    },
+    "sprite": "assets/sprites/stone_husk/walk/sheet-transparent.png"
+  },
+  {
+    "id": "spitter",
+    "name": "Spitter",
+    "role": "ranged",
+    "kind": "ranged",
+    "frameW": 64,
+    "frameH": 64,
+    "fps": 8,
+    "stats": {
+      "hp": 26,
+      "speed": 44,
+      "damage": 10,
+      "xp": 4,
+      "radius": 18,
+      "knockbackResist": 0.2
+    },
+    "ranged": {
+      "cooldown": 2.4,
+      "range": 420,
+      "preferredDist": 260,
+      "projectileSpeed": 240,
+      "damage": 9
+    },
+    "animations": {
+      "walk": {
+        "sprite": "assets/sprites/spitter/walk/sheet-transparent.png"
+      }
+    },
+    "sprite": "assets/sprites/spitter/walk/sheet-transparent.png"
+  },
+  {
+    "id": "bloater",
+    "name": "Bloater",
+    "role": "bomber",
+    "kind": "exploder",
+    "frameW": 64,
+    "frameH": 64,
+    "fps": 8,
+    "stats": {
+      "hp": 40,
+      "speed": 58,
+      "damage": 6,
+      "xp": 3,
+      "radius": 20,
+      "knockbackResist": 0.3
+    },
+    "explode": {
+      "radius": 96,
+      "damage": 26
+    },
+    "animations": {
+      "walk": {
+        "sprite": "assets/sprites/bloater/walk/sheet-transparent.png"
+      }
+    },
+    "sprite": "assets/sprites/bloater/walk/sheet-transparent.png"
+  },
+  {
+    "id": "reaver",
+    "name": "Reaver",
+    "role": "elite",
+    "kind": "melee",
+    "frameW": 80,
+    "frameH": 80,
+    "fps": 10,
+    "stats": {
+      "hp": 130,
+      "speed": 104,
+      "damage": 20,
+      "xp": 12,
+      "radius": 22,
+      "knockbackResist": 0.5
+    },
+    "animations": {
+      "walk": {
+        "sprite": "assets/sprites/reaver/walk/sheet-transparent.png"
+      }
+    },
+    "sprite": "assets/sprites/reaver/walk/sheet-transparent.png"
+  },
+  {
+    "id": "the_colossus",
+    "name": "The Colossus",
+    "role": "boss",
+    "kind": "boss",
+    "frameW": 192,
+    "frameH": 192,
+    "fps": 8,
+    "stats": {
+      "hp": 2200,
+      "speed": 38,
+      "damage": 28,
+      "xp": 400,
+      "radius": 78,
+      "knockbackResist": 1
+    },
+    "phases": [
+      {
+        "atHpPct": 1.0,
+        "slam": {
+          "cooldown": 3.2,
+          "radius": 150,
+          "damage": 26
+        },
+        "summon": {
+          "id": "bone_walker",
+          "count": 4,
+          "cooldown": 9
+        }
+      },
+      {
+        "atHpPct": 0.6,
+        "slam": {
+          "cooldown": 2.4,
+          "radius": 170,
+          "damage": 30
+        },
+        "summon": {
+          "id": "swarm_bat",
+          "count": 10,
+          "cooldown": 7
+        }
+      },
+      {
+        "atHpPct": 0.25,
+        "slam": {
+          "cooldown": 1.9,
+          "radius": 190,
+          "damage": 34
+        },
+        "summon": {
+          "id": "reaver",
+          "count": 3,
+          "cooldown": 6
+        }
+      }
+    ],
+    "animations": {
+      "walk": {
+        "sprite": "assets/sprites/the_colossus/walk/sheet-transparent.png"
+      }
+    },
+    "sprite": "assets/sprites/the_colossus/walk/sheet-transparent.png"
+  }
+]

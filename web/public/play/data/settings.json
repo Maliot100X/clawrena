@@ -1,0 +1,41 @@
+{
+  "autopilotStart": true,
+  "strategy": "survivor",
+  "brain": {
+    "provider": "river",
+    "endpoint": "https://api.river.ai/v1/chat/completions",
+    "model": "deepseek-ai/DeepSeek-V4.1-Flash",
+    "timeoutMs": 1200,
+    "maxTokens": 8,
+    "temperature": 0.2
+  },
+  "fallbacks": [
+    {
+      "provider": "groq",
+      "endpoint": "https://api.groq.com/openai/v1/chat/completions",
+      "model": "openai/gpt-oss-20b"
+    }
+  ],
+  "shopEnabled": true,
+  "leaderboardEnabled": true,
+  "leaderboardSize": 10,
+  "scoreFormula": {
+    "perKill": 10,
+    "perSecond": 5,
+    "perGold": 1,
+    "levelBonus": 50,
+    "bossKill": 500
+  },
+  "economy": {
+    "goldPerPoint": 0.1,
+    "pointPerScore": 1.0,
+    "pointsPerGoldBought": 100,
+    "solPerGold": 0.1,
+    "goldPerSol": 100000,
+    "leaderboardPointBonus": [
+      5000,
+      2500,
+      1200
+    ]
+  }
+}

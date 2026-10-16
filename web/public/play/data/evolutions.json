@@ -1,0 +1,8 @@
+{
+  "evolutions": [
+    { "weapon": "soul_bolt",   "requiresPassive": "damage",   "passiveLevel": 3, "evolvedName": "Hellfire Barrage",  "desc": "5 piercing bolts of demonic fire", "bonus": { "projectiles": 5, "pierce": 5, "damageMult": 1.5 } },
+    { "weapon": "bone_scythe", "requiresPassive": "max_hp",   "passiveLevel": 3, "evolvedName": "Reaper's Toll",     "desc": "A full-circle harvest",            "bonus": { "radiusMult": 1.6, "damageMult": 1.6 } },
+    { "weapon": "ember_ring",  "requiresPassive": "cooldown", "passiveLevel": 3, "evolvedName": "Storm of Ruin",     "desc": "Embers that never stop",           "bonus": { "projectiles": 20, "cooldownMult": 0.6 } },
+    { "weapon": "soul_orbit",  "requiresPassive": "armor",    "passiveLevel": 3, "evolvedName": "Pentagram of Souls","desc": "5 soul orbs seal the circle",      "bonus": { "count": 6, "radiusMult": 1.4 } }
+  ]
+}

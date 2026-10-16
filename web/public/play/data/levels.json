@@ -1,0 +1,18 @@
+{
+  "levels": [
+    {
+      "id": "blood_arena",
+      "file": "data/blood_arena.json",
+      "order": 1,
+      "boss": false,
+      "name": "The Blood Arena"
+    },
+    {
+      "id": "colossus_gate",
+      "file": "data/colossus_gate.json",
+      "order": 2,
+      "boss": true,
+      "name": "The Colossus Gate"
+    }
+  ]
+}

@@ -1,0 +1,173 @@
+{
+  "passives": [
+    {
+      "id": "damage",
+      "name": "Sharpened",
+      "desc": "+12% damage",
+      "maxLevel": 5,
+      "mods": {
+        "damageMult": 0.12
+      }
+    },
+    {
+      "id": "max_hp",
+      "name": "Vigor",
+      "desc": "+20 max HP",
+      "maxLevel": 5,
+      "mods": {
+        "maxHpAdd": 20
+      }
+    },
+    {
+      "id": "speed",
+      "name": "Swift Boots",
+      "desc": "+8% move speed",
+      "maxLevel": 5,
+      "mods": {
+        "speedMult": 0.08
+      }
+    },
+    {
+      "id": "cooldown",
+      "name": "Chronos",
+      "desc": "-8% weapon cooldown",
+      "maxLevel": 5,
+      "mods": {
+        "cooldownMult": -0.08
+      }
+    },
+    {
+      "id": "armor",
+      "name": "Tough Skin",
+      "desc": "+1 armor",
+      "maxLevel": 5,
+      "mods": {
+        "armorAdd": 1
+      }
+    },
+    {
+      "id": "area",
+      "name": "Wide Reach",
+      "desc": "+10% effect area",
+      "maxLevel": 5,
+      "mods": {
+        "areaMult": 0.1
+      }
+    },
+    {
+      "id": "magnet",
+      "name": "Soul Pull",
+      "desc": "+25% pickup radius",
+      "maxLevel": 5,
+      "mods": {
+        "magnetMult": 0.25
+      }
+    },
+    {
+      "id": "regen",
+      "name": "Leech",
+      "desc": "+0.4 HP/s regen",
+      "maxLevel": 5,
+      "mods": {
+        "regenAdd": 0.4
+      }
+    },
+    {
+      "id": "luck",
+      "name": "Lucky Charm",
+      "desc": "+10% drop chance",
+      "maxLevel": 5,
+      "mods": {
+        "luckAdd": 0.1
+      }
+    },
+    {
+      "id": "xp",
+      "name": "Scholar",
+      "desc": "+10% XP gained",
+      "maxLevel": 5,
+      "mods": {
+        "xpMult": 0.1
+      }
+    },
+    {
+      "id": "crit",
+      "name": "Keen Eye",
+      "desc": "+7% critical chance",
+      "maxLevel": 5,
+      "mods": {
+        "critChanceAdd": 0.07
+      }
+    },
+    {
+      "id": "crit_dmg",
+      "name": "Executioner",
+      "desc": "+30% critical damage",
+      "maxLevel": 5,
+      "mods": {
+        "critMultAdd": 0.3
+      }
+    },
+    {
+      "id": "dash_cd",
+      "name": "Windstep",
+      "desc": "-12% dash cooldown",
+      "maxLevel": 4,
+      "mods": {
+        "dashCdMult": -0.12
+      }
+    },
+    {
+      "id": "thorns",
+      "name": "Barbed Hide",
+      "desc": "Reflect 8 contact damage",
+      "maxLevel": 5,
+      "mods": {
+        "thornsAdd": 8
+      }
+    },
+    {
+      "id": "proj_speed",
+      "name": "Quickdraw",
+      "desc": "+15% projectile speed",
+      "maxLevel": 4,
+      "mods": {
+        "projSpeedMult": 0.15
+      }
+    },
+    {
+      "id": "pierce",
+      "name": "Piercing Rounds",
+      "desc": "Projectiles pierce +1",
+      "maxLevel": 3,
+      "mods": {
+        "pierceAdd": 1
+      }
+    },
+    {
+      "id": "revive",
+      "name": "Second Wind",
+      "desc": "Revive once at 50% HP",
+      "maxLevel": 1,
+      "mods": {
+        "revivesAdd": 1
+      }
+    },
+    {
+      "id": "greed",
+      "name": "Avarice",
+      "desc": "+20% gold and drops",
+      "maxLevel": 4,
+      "mods": {
+        "greedMult": 0.2
+      }
+    }
+  ],
+  "cardRules": {
+    "cardsPerLevelUp": 3,
+    "weaponCardWeight": 1.4,
+    "newWeaponWeight": 1.0,
+    "healFallback": 30,
+    "rareCardChance": 0.18
+  }
+}
